@@ -1,6 +1,6 @@
 # ocaml-cryptodbm
 
-cryptodbm is an **[OCaml](http://ocaml.org/) library** that provides an encrypted layer over the dbm library: access to serverless, key-value databases with symmetric encryption.
+cryptodbm is an **[OCaml](http://ocaml.org/) library** that provides an encrypted layer over the [dbm library](https://github.com/ocaml/dbm): access to serverless, key-value databases with symmetric encryption.
 
 ## Install
 
@@ -16,25 +16,22 @@ The ocamlfind package name is `cryptodbm`.
 
 ## Overview
 
-This library provides an encrypted layer on top of the Dbm and Cryptokit packages. The improvements over Dbm are:
-* A single database file may contain {b several independent subtables}, identified by a name (a string).
-* Each subtable can be {b signed and encrypted individually}, or encrypted using a global password.
+This library provides an encrypted layer on top of the [Dbm](https://github.com/ocaml/dbm) and [Cryptokit](https://github.com/xavierleroy/cryptokit/) packages. The improvements over Dbm are:
+* A single database file may contain **several independent subtables**, identified by a name (a string).
+* Each subtable can be **signed and encrypted individually**, or encrypted using a global password.
 * The whole file can be signed.
 * **Obfuscating data** is -optionally- appended to keys, data, and to the whole table, so that two databases with
    the same content look significantly different, once encrypted.
 * Encryption is symmetric: encryption and decryption both use the same password.
 * Signature is symmetric: signing and verifying the signature both use the same signword.
 
-    As a quick example, the following uncrypted bindings (key => data):
-
+As a quick example, the following uncrypted bindings (key => data):
 ```
         "john-doe"        => "age 36"
         "some secret"     => "The cake is a lie."
         "Motto"           => "For relaxing times, make it Suntory time"
 ```
-
-    are stored as follows in the encrypted file (with variations depending on the password, and other parameters):
-
+are stored as follows in the encrypted file (with variations depending on the password, and other parameters):
 ```
  [S~j....O.Q..tk^.2] => [...F...).Hsl..tB]
  [...y;....~.:.6V.2] => [....I...JR..w.E9..G..q=...K....b]
@@ -44,12 +41,12 @@ This library provides an encrypted layer on top of the Dbm and Cryptokit package
  [K.#i.7j..H.ZZ.^.2] => [..z....,........] v}
 ```
 
-    Including several subtables in the same
-    database file avoids having to deal with multiple files to store related information, 
-    and also prevents information leak through the number and sizes of a set of database files.
+Including several subtables in the same
+database file avoids having to deal with multiple files to store related information, 
+and also prevents information leak through the number and sizes of a set of database files.
 
-    This library was primarily designed to store encrypted exam files on a university server. A common layout consists in
-    several subtables encrypted with a global password, as well as an uncrypted subtable containing (public) meta-information.
+This library was primarily designed to store encrypted exam files on a university server. A common layout consists in
+several subtables encrypted with a global password, as well as an uncrypted subtable containing (public) meta-information.
 
 
 ## Contact
