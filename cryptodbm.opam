@@ -15,10 +15,9 @@ license: "MIT License"
 depends: [
          "ocamlfind"
          "jbuilder"
+         "dbm"
+         "fileutils"
+         "cryptokit"
          ]
-
-depopts: [
-          "lwt"
-          ]
 
 build: [["jbuilder" "build" "-p" name "-j" jobs]]
