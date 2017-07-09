@@ -12,4 +12,9 @@ clean:
 	find -L . -name "*~" -delete
 	jbuilder clean
 
+doc:	build
+	ocamlfind ocamldoc -html -d docs _build/default/src/cryptodbm.mli 
+	cp style/style.css docs/
 
+# I do not use odoc yet, because it is undocumented, and the generated files use the css file in ../../odoc.css
+# which is not correct when deploying the pages. I will not /sed/ the output files to fix this.

@@ -1,0 +1,9 @@
+B ../_build/default/src
+B ../_build/default/src/internals
+FLG -w -40
+PKG cryptokit
+PKG dbm
+PKG fileutils
+PKG unix
+PKG zarith
+S internals
