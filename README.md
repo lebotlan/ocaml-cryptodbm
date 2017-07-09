@@ -8,7 +8,7 @@ Install with [opam](https://opam.ocaml.org/): `opam install cryptodbm`
 
 ## API Documentation
 
-The [Cryptodbm API](https://lebotlan.github.io/ocaml-cryptodbm.html).
+The [Cryptodbm API](https://lebotlan.github.io/ocaml-cryptodbm/index.html).
 See also the examples/ dir.
 
 The ocamlfind package name is `cryptodbm`.
