@@ -1,7 +1,9 @@
 (** 
    {2 Encrypted layer over the dbm library: serverless, key-value databases with symmetric encryption.}
 
-  This library provides an encrypted layer on top of the Dbm and Cryptokit packages. The improvements over Dbm are:
+  This library provides an encrypted layer on top of the {{:https://github.com/ocaml/dbm}Dbm} and {{:https://github.com/xavierleroy/cryptokit/}Cryptokit} packages. 
+  The improvements over Dbm are:
+
   {ul
   {- A single database file may contain {b several independent subtables}, identified by a name (a string).}
   {- Each subtable can be {b signed and encrypted individually}, or encrypted using a global password.}
@@ -72,9 +74,9 @@
        encryption using the salt and the (sub)table password. The hashing function is currently sha256 (see the Cryptokit package).}
     }
 
-    See also the {{:https://forge.ocamlcore.org/projects/cryptodbm/} project homepage}.
+    See also the {{:https://github.com/lebotlan/ocaml-cryptodbm} project homepage}.
 
-    {i Contact: D. Le Botlan (lebotlan atat users.forge.ocamlcore.org)}
+    {i Contact: D. Le Botlan (github.lebotlan\@dfgh.met where you replace .met by .net.) }
 
  *)
 
@@ -86,9 +88,8 @@
 
    let subtable = append_subtable table ~name:"here the subtable name" () in
 
-    add subtable ~key:"key1" ~data:"data1" () ;
-    add subtable ~key:"key2" ~data:"data2" () ;
-
+     add subtable ~key:"key1" ~data:"data1" () ;
+     add subtable ~key:"key2" ~data:"data2" () ;
 
    close table ;
 ]}
@@ -103,7 +104,7 @@ module Error :
 	(** The error occured in the indicated subtable, with the given name (and number). *)
 	      
 	| Table
-	(** The error concerns the main table. *)
+	(** The error occured in the main table. *)
 
 	| Any
 	(** The location is undetermined. *)

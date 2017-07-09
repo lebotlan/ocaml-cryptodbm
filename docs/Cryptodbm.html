@@ -37,7 +37,10 @@
 <h2 id="2_Encryptedlayeroverthedbmlibraryserverlesskeyvaluedatabaseswithsymmetricencryption">Encrypted layer over the dbm library: serverless, key-value databases with symmetric encryption.</h2>
 <p>
 
-  This library provides an encrypted layer on top of the Dbm and Cryptokit packages. The improvements over Dbm are:
+  This library provides an encrypted layer on top of the <a href="https://github.com/ocaml/dbm">Dbm</a> and <a href="https://github.com/xavierleroy/cryptokit/">Cryptokit</a> packages. 
+  The improvements over Dbm are:
+<p>
+
   <ul>
 <li>A single database file may contain <b>several independent subtables</b>, identified by a name (a string).</li>
 <li>Each subtable can be <b>signed and encrypted individually</b>, or encrypted using a global password.</li>
@@ -125,10 +128,10 @@
 
 <p>
 
-    See also the <a href="https://forge.ocamlcore.org/projects/cryptodbm/"> project homepage</a>.
+    See also the <a href="https://github.com/lebotlan/ocaml-cryptodbm"> project homepage</a>.
 <p>
 
-    <i>Contact: D. Le Botlan (lebotlan atat users.forge.ocamlcore.org)</i><br>
+    <i>Contact: D. Le Botlan (github.lebotlan@dfgh.met where you replace .met by .net.) </i><br>
 </div>
 <hr width="100%">
 <br>
@@ -139,9 +142,8 @@
 
    let subtable = append_subtable table ~name:"here the subtable name" () in
 
-    add subtable ~key:"key1" ~data:"data1" () ;
-    add subtable ~key:"key2" ~data:"data2" () ;
-
+     add subtable ~key:"key1" ~data:"data1" () ;
+     add subtable ~key:"key2" ~data:"data2" () ;
 
    close table ;
 </code></pre><br>
