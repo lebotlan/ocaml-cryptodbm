@@ -1,4 +1,4 @@
-.PHONY: all test clean doc build examples
+.PHONY: all tests clean doc build examples
 
 all:	build
 
@@ -11,6 +11,9 @@ examples:
 clean:
 	find -L . -name "*~" -delete
 	jbuilder clean
+
+tests:
+	jbuilder build @test/tests
 
 doc:	build
 	ocamlfind ocamldoc -html -d docs _build/default/src/cryptodbm.mli 

@@ -1,7 +1,7 @@
 (* Read the preamble in test_dbm_helper.ml *)
 
 open Test_dbm_helper
-open ExEnum
+open Exenum
 
 (* Enumerations for the different elements of a config. *)
 let e_fake_random = from_list [ 999 ]
@@ -87,7 +87,7 @@ let () =
   let start = int_of_string Sys.argv.(1) in
   let start = if start = 0 then 0 else start * 2 - 1 in
 
-  ExEnum.tester e_table_config ~from:(boi (start*1000)) ~verbose_period:1 ~len:1000 
+  Exenum.tester e_table_config ~from:(boi (start*1000)) ~verbose_period:1 ~len:1000 
   begin fun tconf ->
     Printexc.print
       begin fun () ->

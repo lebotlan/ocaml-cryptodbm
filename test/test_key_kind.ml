@@ -6,7 +6,7 @@ open Helper
 
 (*** Test key encryption ***)
 
-open ExEnum
+open Exenum
 open Big_int
 open Exenum_internals.Convenience
 

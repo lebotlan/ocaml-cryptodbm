@@ -1,4 +1,4 @@
-
+open Cryptodbm_internals
 open Cipher
 
 let trytest () =
