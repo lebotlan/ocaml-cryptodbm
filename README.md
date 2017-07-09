@@ -31,7 +31,7 @@ As a quick example, the following uncrypted bindings (key => data):
         "some secret"     => "The cake is a lie."
         "Motto"           => "For relaxing times, make it Suntory time"
 ```
-are stored as follows in the encrypted file (with variations depending on the password, and other parameters):
+are stored as follows in the encrypted file (with variations depending on the password, the salt, and other parameters):
 ```
  [S~j....O.Q..tk^.2] => [...F...).Hsl..tB]
  [...y;....~.:.6V.2] => [....I...JR..w.E9..G..q=...K....b]
