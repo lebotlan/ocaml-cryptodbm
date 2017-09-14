@@ -88,10 +88,11 @@
 
    let subtable = append_subtable table ~name:"here the subtable name" () in
 
-     add subtable ~key:"key1" ~data:"data1" () ;
-     add subtable ~key:"key2" ~data:"data2" () ;
+   add subtable ~key:"key1" ~data:"data1" () ;
+   add subtable ~key:"key2" ~data:"data2" () ;
 
    close table ;
+   ()
 ]}
 *)
 

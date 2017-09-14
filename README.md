@@ -6,6 +6,11 @@ cryptodbm is an **[OCaml](http://ocaml.org/) library** that provides an encrypte
 
 Install with [opam](https://opam.ocaml.org/): `opam install cryptodbm`
 
+Note : for the moment the cryptodbm opam repository is out of date... I am waiting for opam-publish to work
+(or to fix my wrng usage of it)
+see issue https://github.com/ocaml/opam-publish/issues/55
+
+
 ## API Documentation
 
 The [Cryptodbm API](https://lebotlan.github.io/ocaml-cryptodbm/index.html).
@@ -49,7 +54,20 @@ This library was primarily designed to store encrypted exam files on a universit
 several subtables encrypted with a global password, as well as an uncrypted subtable containing (public) meta-information.
 
 
+## Typical example
+
+```
+   let table = open_append ~file:"/path/to/myfile" ~passwd:"my-secret-passwd" in
+
+   let subtable = append_subtable table ~name:"here the subtable name" () in
+
+   add subtable ~key:"key1" ~data:"data1" () ;
+   add subtable ~key:"key2" ~data:"data2" () ;
+
+   close table ;
+   ()
+```
+
 ## Contact
 
 Didier Le Botlan, **github.lebotlan@dfgh.met**  where you replace **.met** by **.net**.
-
