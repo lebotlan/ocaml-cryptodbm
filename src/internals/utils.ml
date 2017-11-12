@@ -11,7 +11,7 @@ let random_string gen len =
   for i = 0 to len - 1 do
     Bytes.set res i (Char.chr (random_int gen 256)) ;
   done ;
-  res
+  Bytes.to_string res
 
 let date_to_string date =
   Unix.(

@@ -162,30 +162,3 @@ let ends_with a b =
   (lb >= la) && (String.sub b (lb - la) la = a)
 
 
-(* Ad-hoc...
- * Efficiently remove spaces at begin, end, and multiple spaces in the middle of the string. *)
-let rec eatable_spaces flag pos len s count =
-  if pos >= len then count
-  else match s.[pos] with
-  | ' ' when flag || pos + 1 = len ->
-      let delta =
-	if pos + 1 = len && flag && pos > count then 2
-	else 1
-      in
-      eatable_spaces true (pos+1) len s (count + delta)
-
-  | c -> eatable_spaces (c = ' ') (pos+1) len s count
-
-let rec eat_spaces_aux flag pos len s res reslen respos =
-  if pos >= len then res
-  else match s.[pos] with
-  | ' ' when flag || respos = reslen -> eat_spaces_aux true (pos+1) len s res reslen respos
-  | c ->
-      Bytes.set res respos c ;
-      eat_spaces_aux (c = ' ') (pos+1) len s res reslen (respos+1)
-
-let eat_spaces s =
-  let len = String.length s in
-  let eatable = eatable_spaces true 0 len s 0 in
-  if eatable > 0 then eat_spaces_aux true 0 len s (Bytes.create (len - eatable)) (len - eatable) 0
-  else s

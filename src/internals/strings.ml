@@ -4,9 +4,10 @@ let insert16 s ~pos x =
   assert (0 <= x && x <= 0xffff) ;
   assert (0 <= pos) ; 
   assert (String.length s >= pos + 2) ;
+  let s = Bytes.of_string s in
   Bytes.set s pos (Char.chr (x lsr 8)) ;
   Bytes.set s (pos+1) (Char.chr (x mod 256)) ;
-  s
+  Bytes.to_string s
 
 let read16 s ~pos =
   assert (String.length s >= pos + 2) ;

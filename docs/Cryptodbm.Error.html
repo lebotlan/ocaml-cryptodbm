@@ -17,8 +17,10 @@
 &nbsp;</div>
 <h1>Module <a href="type_Cryptodbm.Error.html">Cryptodbm.Error</a></h1>
 
-<pre><span class="keyword">module</span> Error: <code class="code">sig</code> <a href="Cryptodbm.Error.html">..</a> <code class="code">end</code></pre><div class="info module top">
-All errors that may occur.<br>
+<pre><span id="MODULEError"><span class="keyword">module</span> Error</span>: <code class="code">sig</code> <a href="Cryptodbm.Error.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>All errors that may occur.</p>
+</div>
 </div>
 <hr width="100%">
 
@@ -29,7 +31,9 @@ All errors that may occur.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror_location.Subtable"><span class="constructor">Subtable</span></span> <span class="keyword">of</span> <code class="type">string * int</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The error occured in the indicated subtable, with the given name (and number).<br>
+<div class="info-desc">
+<p>The error occured in the indicated subtable, with the given name (and number).</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -39,7 +43,9 @@ The error occured in the indicated subtable, with the given name (and number).<b
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror_location.Table"><span class="constructor">Table</span></span></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The error occured in the main table.<br>
+<div class="info-desc">
+<p>The error occured in the main table.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -49,13 +55,17 @@ The error occured in the main table.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror_location.Any"><span class="constructor">Any</span></span></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The location is undetermined.<br>
+<div class="info-desc">
+<p>The location is undetermined.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr></table>
 
 <div class="info ">
-Location where an error occured.<br>
+<div class="info-desc">
+<p>Location where an error occured.</p>
+</div>
 </div>
 
 
@@ -66,7 +76,9 @@ Location where an error occured.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.File_not_found"><span class="constructor">File_not_found</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The file does not exist or is not readable.<br>
+<div class="info-desc">
+<p>The file does not exist or is not readable.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -76,7 +88,9 @@ The file does not exist or is not readable.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.File_overwrite"><span class="constructor">File_overwrite</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Overwriting an existing file is not allowed.<br>
+<div class="info-desc">
+<p>Overwriting an existing file is not allowed.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -86,7 +100,9 @@ Overwriting an existing file is not allowed.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.File_not_appendable"><span class="constructor">File_not_appendable</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Append mode: the file does not exist, or is not readable, or is not writeable.<br>
+<div class="info-desc">
+<p>Append mode: the file does not exist, or is not readable, or is not writeable.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -96,7 +112,9 @@ Append mode: the file does not exist, or is not readable, or is not writeable.<b
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.File_not_writeable"><span class="constructor">File_not_writeable</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Write mode: the given permission does not allow writing to the file.<br>
+<div class="info-desc">
+<p>Write mode: the given permission does not allow writing to the file.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -106,7 +124,9 @@ Write mode: the given permission does not allow writing to the file.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Bad_format"><span class="constructor">Bad_format</span></span> <span class="keyword">of</span> <code class="type">string * string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The file format is wrong: Bad_format (expected, found)<br>
+<div class="info-desc">
+<p>The file format is wrong: Bad_format (expected, found)</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -116,7 +136,9 @@ The file format is wrong: Bad_format (expected, found)<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Bad_password"><span class="constructor">Bad_password</span></span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-A wrong password was given to open a subtable or the database itself.<br>
+<div class="info-desc">
+<p>A wrong password was given to open a subtable or the database itself.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -126,7 +148,9 @@ A wrong password was given to open a subtable or the database itself.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Bad_signature"><span class="constructor">Bad_signature</span></span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The signature found in the file or in a subtable is wrong.<br>
+<div class="info-desc">
+<p>The signature found in the file or in a subtable is wrong.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -136,7 +160,9 @@ The signature found in the file or in a subtable is wrong.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.No_signature"><span class="constructor">No_signature</span></span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-No signature was found.<br>
+<div class="info-desc">
+<p>No signature was found.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -146,7 +172,9 @@ No signature was found.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Is_Closed"><span class="constructor">Is_Closed</span></span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-The table, or subtable, cannot be used because it is already closed.<br>
+<div class="info-desc">
+<p>The table, or subtable, cannot be used because it is already closed.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -156,7 +184,9 @@ The table, or subtable, cannot be used because it is already closed.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Is_Already_Open"><span class="constructor">Is_Already_Open</span></span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-This subtable cannot be opened because it has already been opened.<br>
+<div class="info-desc">
+<p>This subtable cannot be opened because it has already been opened.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -166,9 +196,11 @@ This subtable cannot be opened because it has already been opened.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.No_subtable"><span class="constructor">No_subtable</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-No subtable with the given name exists. 
+<div class="info-desc">
+<p>No subtable with the given name exists. 
         This error occurs when trying to open a standard subtable with open_uncrypted_subtable,
-        or when trying to open an explicitly uncrypted subtable with open_subtable.<br>
+        or when trying to open an explicitly uncrypted subtable with open_subtable.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -178,7 +210,9 @@ No subtable with the given name exists.
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Subtable_exists"><span class="constructor">Subtable_exists</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-A subtable with the given name already exists.<br>
+<div class="info-desc">
+<p>A subtable with the given name already exists.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -188,7 +222,9 @@ A subtable with the given name already exists.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Subtable_overflow"><span class="constructor">Subtable_overflow</span></span></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Too many subtables created. Current maximum is 2^14 - 1.<br>
+<div class="info-desc">
+<p>Too many subtables created. Current maximum is 2^14 - 1.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -198,7 +234,9 @@ Too many subtables created. Current maximum is 2^14 - 1.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Overwrite"><span class="constructor">Overwrite</span></span> <span class="keyword">of</span> <code class="type">string * <a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Trying to overwrite a key, while may_overwrite was false.<br>
+<div class="info-desc">
+<p>Trying to overwrite a key, while may_overwrite was false.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -208,7 +246,9 @@ Trying to overwrite a key, while may_overwrite was false.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Unbound"><span class="constructor">Unbound</span></span> <span class="keyword">of</span> <code class="type">string * <a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a></code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Trying to read a key that is not bound.<br>
+<div class="info-desc">
+<p>Trying to read a key that is not bound.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -218,7 +258,9 @@ Trying to read a key that is not bound.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.DB_Error"><span class="constructor">DB_Error</span></span> <span class="keyword">of</span> <code class="type">exn</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Error when accessing the underlying database.<br>
+<div class="info-desc">
+<p>Error when accessing the underlying database.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -228,7 +270,9 @@ Error when accessing the underlying database.<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Corrupted"><span class="constructor">Corrupted</span></span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a> * string</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Corrupted file: it does not have the expected structure. (An error message is given).<br>
+<div class="info-desc">
+<p>Corrupted file: it does not have the expected structure. (An error message is given).</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
@@ -238,7 +282,9 @@ Corrupted file: it does not have the expected structure. (An error message is gi
 <td align="left" valign="top" >
 <code><span id="TYPEELTerror.Backup_failure"><span class="constructor">Backup_failure</span></span> <span class="keyword">of</span> <code class="type">exn</code></code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Error when trying to create the backup.<br>
+<div class="info-desc">
+<p>Error when trying to create the backup.</p>
+</div>
 </div>
 </td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr></table>
@@ -247,11 +293,15 @@ Error when trying to create the backup.<br>
 
 <pre><span id="EXCEPTIONError"><span class="keyword">exception</span> Error</span> <span class="keyword">of</span> <code class="type"><a href="Cryptodbm.Error.html#TYPEerror">error</a></code></pre>
 <div class="info ">
-Exception raised when an error occurs.<br>
+<div class="info-desc">
+<p>Exception raised when an error occurs.</p>
+</div>
 </div>
 
 <pre><span id="VALloc2s"><span class="keyword">val</span> loc2s</span> : <code class="type"><a href="Cryptodbm.Error.html#TYPEerror_location">error_location</a> -> string</code></pre><div class="info ">
-Printing functions.<br>
+<div class="info-desc">
+<p>Printing functions.</p>
+</div>
 </div>
 
 <pre><span id="VALerror2s"><span class="keyword">val</span> error2s</span> : <code class="type"><a href="Cryptodbm.Error.html#TYPEerror">error</a> -> string</code></pre></body></html>

@@ -1,9 +1,9 @@
 
-type bitarray = string ref
+type bitarray = bytes ref
 
 type t = bitarray
 
-let create n = ref (String.make ((n+7) / 8) '\000')
+let create n = ref (Bytes.make ((n+7) / 8) '\000')
 
 let get_offset_and_mask n = 
   let offset = n lsr 3
@@ -12,24 +12,24 @@ let get_offset_and_mask n =
   (offset, mask)
 
 let get sr i =
-  if i >= 8 * String.length !sr then false
+  if i >= 8 * Bytes.length !sr then false
   else
     let (offset, mask) = get_offset_and_mask i in
-    0 <> Char.code (!sr.[offset]) land mask
+    0 <> Char.code (Bytes.get !sr offset) land mask
 
 let set sr i value =
-  let len = String.length !sr in
+  let len = Bytes.length !sr in
   if i >= 8 * len then
     begin
-      let newstring = String.make (max (1 + i/8) (2 * len)) '\000' in
+      let newstring = Bytes.make (max (1 + i/8) (2 * len)) '\000' in
 (*      Printf.printf "blit : %d 0 %d 0 %d\n%!" (String.length !sr) (String.length newstring) len ; *)
-      String.blit !sr 0 newstring 0 len ;
+      Bytes.blit !sr 0 newstring 0 len ;
       sr := newstring ;
     end ;
 
   let (offset, mask) = get_offset_and_mask i in
   
-  let cell = Char.code !sr.[offset] in
+  let cell = Char.code (Bytes.get !sr offset) in
   
   let newcell =
     if value then cell lor mask
@@ -49,10 +49,10 @@ let rec fold_bits pos acu f byte =
 let rec fold_aux s acu f len pos =
   if pos >= len then acu
   else
-    let acu' = fold_bits (pos lsl 3) acu f (Char.code s.[pos]) in
+    let acu' = fold_bits (pos lsl 3) acu f (Char.code (Bytes.get s pos)) in
     fold_aux s acu' f len (pos + 1)
   
-let fold sr acu f = fold_aux !sr acu f (String.length !sr) 0
+let fold sr acu f = fold_aux !sr acu f (Bytes.length !sr) 0
 
 let iter sr f = fold sr () (fun n () -> f n)
 

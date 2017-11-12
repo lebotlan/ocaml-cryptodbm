@@ -84,11 +84,13 @@ let compute_strong_passwd iterations p =
       (* Xor with its own hashcode.) *)
       let current_hash = digest current2 in
 
+      let current2 = Bytes.of_string current2 in
+
       (* circular_xor directly on current2. *)
-      circular_xor current2 current_hash 0 (String.length current2) (String.length current_hash) ;
+      circular_xor current2 current_hash 0 (Bytes.length current2) (String.length current_hash) ;
 
       (* Get the digest in order to reduce the password size. *)
-      iterate (digest current2) (n-1)
+      iterate (digest (Bytes.to_string current2)) (n-1)
   in
 
   (* Start from the password itself. *)

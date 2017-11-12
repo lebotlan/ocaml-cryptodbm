@@ -14,8 +14,7 @@ val append_char   : string -> char -> string
 val get_last_char : string -> (char * string)
 val get_first_char : string -> (char * string)
 
-(* Inserts/read a 16-bit value in string s, at position p. Big endian. 
- * insert16 returns its first argument. 
+(* Inserts/read a 16-bit value in string s, at position p. Big endian.
  * p must be between 0 and length s - 2 *)
 val insert16 : string -> pos:int -> int -> string
 val read16   : string -> pos:int -> int

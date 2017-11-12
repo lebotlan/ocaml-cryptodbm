@@ -33,15 +33,13 @@
 &nbsp;</div>
 <h1>Module <a href="type_Cryptodbm.html">Cryptodbm</a></h1>
 
-<pre><span class="keyword">module</span> Cryptodbm: <code class="code">sig</code> <a href="Cryptodbm.html">..</a> <code class="code">end</code></pre><div class="info module top">
-<h2 id="2_Encryptedlayeroverthedbmlibraryserverlesskeyvaluedatabaseswithsymmetricencryption">Encrypted layer over the dbm library: serverless, key-value databases with symmetric encryption.</h2>
-<p>
+<pre><span id="MODULECryptodbm"><span class="keyword">module</span> Cryptodbm</span>: <code class="code">sig</code> <a href="Cryptodbm.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<h3 id="2_Encryptedlayeroverthedbmlibraryserverlesskeyvaluedatabaseswithsymmetricencryption">Encrypted layer over the dbm library: serverless, key-value databases with symmetric encryption.</h3>
+<p>This library provides an encrypted layer on top of the <a href="https://github.com/ocaml/dbm">Dbm</a> and <a href="https://github.com/xavierleroy/cryptokit/">Cryptokit</a> packages. 
+   The improvements over Dbm are:</p>
 
-   This library provides an encrypted layer on top of the <a href="https://github.com/ocaml/dbm">Dbm</a> and <a href="https://github.com/xavierleroy/cryptokit/">Cryptokit</a> packages. 
-   The improvements over Dbm are:
-<p>
-
-   <ul>
+<ul>
 <li>A single database file may contain <b>several independent subtables</b>, identified by a name (a string).</li>
 <li>Each subtable can be <b>signed and encrypted individually</b>, or encrypted using a global password.</li>
 <li>The whole file can be signed.</li>
@@ -51,67 +49,48 @@
 <li>Signature is symmetric: signing and verifying the signature both use the same signword.</li>
 </ul>
 
-<p>
+<p>As a quick example, the following uncrypted bindings (key =&gt; data):</p>
 
-    As a quick example, the following uncrypted bindings (key =&gt; data):
-<p>
-
-   <pre class="verbatim">        "john-doe"        =&gt; "age 36"
+<pre class="verbatim">        "john-doe"        =&gt; "age 36"
         "some secret"     =&gt; "The cake is a lie."
         "Motto"           =&gt; "For relaxing times, make it Suntory time"</pre>
-<p>
+<p>are stored as follows in the encrypted file (with variations depending on the password, and other parameters):</p>
 
-    are stored as follows in the encrypted file (with variations depending on the password, and other parameters):
-<p>
-
-   <pre class="verbatim">
+<pre class="verbatim">
  [S~j....O.Q..tk^.2] =&gt; [...F...).Hsl..tB]
  [...y;....~.:.6V.2] =&gt; [....I...JR..w.E9..G..q=...K....b]
  [..'.C...F.x.3K.y2] =&gt; [1.)9q..M...et.b.]
  [S.....5 Y....8..2] =&gt; [.D........2..u...q.......}Z.b..z.zo.}.l3l.....&gt;.]
  [...xD;@.8..wV..P1....e}....u..`.2] =&gt; [hb..2.._B....Y?0....|.....tM....]
  [K.#i.7j..H.ZZ.^.2] =&gt; [..z....,........]</pre>
-<p>
-
-    Including several subtables in the same
+<p>Including several subtables in the same
     database file avoids having to deal with multiple files to store related information, 
-    and also prevents information leak through the number and sizes of a set of database files.
-<p>
+    and also prevents information leak through the number and sizes of a set of database files.</p>
 
-    This library was primarily designed to store encrypted exam files on a university server. A common layout consists in
-    several subtables encrypted with a global password, as well as an uncrypted subtable containing (public) meta-information.
-<p>
+<p>This library was primarily designed to store encrypted exam files on a university server. A common layout consists in
+    several subtables encrypted with a global password, as well as an uncrypted subtable containing (public) meta-information.</p>
 
-    <b>Install and compile</b>
-<p>
+<p><b>Install and compile</b></p>
 
-    Install using opam: <code class="code">opam install cryptodbm</code>
-<p>
+<p>Install using opam: <code class="code">opam install cryptodbm</code></p>
 
-    Compile with ocamlbuild by adding the following to your _tags file: 
-   <pre class="verbatim">&lt;**/*&gt; : package(cryptodbm)</pre>
-<p>
+<p>Compile with ocamlbuild by adding the following to your _tags file:</p>
+<pre class="verbatim">&lt;**/*&gt; : package(cryptodbm)</pre>
+<p><b>Performance</b></p>
 
-    <b>Performance</b>
-<p>
-
-    I have not benchmarked this library. 
+<p>I have not benchmarked this library. 
     Keep in mind that every access (reading or writing a binding) requires to encrypt the key,
     and encrypt the data (when writing) or decrypt the data (when reading).
-    Don't be pessimistic, though: it seems all right for non critical applications.
-<p>
+    Don't be pessimistic, though: it seems all right for non critical applications.</p>
 
-    Also, there is only a global key-index for the whole table, no key-index for individual subtables. As a consequence,
-    subtable iterators actually iterate over the whole table index (selecting only the expected subtable indexes).
-<p>
+<p>Also, there is only a global key-index for the whole table, no key-index for individual subtables. As a consequence,
+    subtable iterators actually iterate over the whole table index (selecting only the expected subtable indexes).</p>
 
-    <b>A few technical details</b>
-<p>
+<p><b>A few technical details</b></p>
 
-    When a database file is encrypted, 
-<p>
+<p>When a database file is encrypted,</p>
 
-    <ul>
+<ul>
 <li>The only uncrypted binding in the file is the format version number, as well as bindings of uncrypted subtables.</li>
 <li>Because of salt(s), it is not possible for an observer to see when two databases use the same password. </li>
 <li>Because of salt(s), saving twice the same database leads to two files containing totally different bindings.
@@ -126,19 +105,14 @@
        encryption using the salt and the (sub)table password. The hashing function is currently sha256 (see the Cryptokit package).</li>
 </ul>
 
-<p>
+<p>See also the <a href="https://github.com/lebotlan/ocaml-cryptodbm"> project homepage</a>.</p>
 
-    See also the <a href="https://github.com/lebotlan/ocaml-cryptodbm"> project homepage</a>.
-<p>
-
-    <i>Contact: D. Le Botlan (github.lebotlan@dfgh.met where you replace .met by .net.) </i><br>
+<p><i>Contact: D. Le Botlan (github.lebotlan@dfgh.met where you replace .met by .net.) </i></p>
+</div>
 </div>
 <hr width="100%">
-<br>
-<h3 id="3_Typicalexample">Typical example</h3>
-<p>
-
-   <pre class="codepre"><code class="code">     let table = open_append ~file:"/path/to/myfile" ~passwd:"my-secret-passwd" in
+<h4 id="3_Typicalexample">Typical example</h4>
+<pre class="codepre"><code class="code">     let table = open_append ~file:"/path/to/myfile" ~passwd:"my-secret-passwd" in
 
      let subtable = append_subtable table ~name:"here the subtable name" () in
 
@@ -147,64 +121,67 @@
 
      close table ;
      ()
-   </code></pre><br>
+   </code></pre>
+<pre><span id="MODULEError"><span class="keyword">module</span> <a href="Cryptodbm.Error.html">Error</a></span>: <code class="code">sig</code> <a href="Cryptodbm.Error.html">..</a> <code class="code">end</code></pre><div class="info">
+<p>All errors that may occur.</p>
 
-<pre><span class="keyword">module</span> <a href="Cryptodbm.Error.html">Error</a>: <code class="code">sig</code> <a href="Cryptodbm.Error.html">..</a> <code class="code">end</code></pre><div class="info">
-All errors that may occur.
 </div>
-<br>
-Notice that all functions may raise <code class="code">Error(DB_Error)</code> when accessing the underlying database.<br>
-<br>
-<h3 id="3_Basics">Basics</h3><br>
-
+<p>Notice that all functions may raise <code class="code">Error(DB_Error)</code> when accessing the underlying database.</p>
+<h4 id="3_Basics">Basics</h4>
 <pre><span id="TYPEtable"><span class="keyword">type</span> <code class="type">'a</code> table</span> </pre>
 <div class="info ">
-The type of encrypted-dbm file descriptors. 
-    'a is a phantom type precising the permission: read-only or full access.<br>
+<div class="info-desc">
+<p>The type of encrypted-dbm file descriptors. 
+    'a is a phantom type precising the permission: read-only or full access.</p>
+</div>
 </div>
 
 
 <pre><span id="TYPEread"><span class="keyword">type</span> <code class="type"></code>read</span> </pre>
 <div class="info ">
-Phantom type which represents read-only permission.<br>
+<div class="info-desc">
+<p>Phantom type which represents read-only permission.</p>
+</div>
 </div>
 
 
 <pre><span id="TYPEfull"><span class="keyword">type</span> <code class="type"></code>full</span> </pre>
 <div class="info ">
-Phantom type which represents read-write permission.<br>
+<div class="info-desc">
+<p>Phantom type which represents read-write permission.</p>
+</div>
 </div>
 
 
 <pre><span id="TYPEsubtable"><span class="keyword">type</span> <code class="type">'a</code> subtable</span> </pre>
 <div class="info ">
-Type of a subtable. 'a is the permission.<br>
+<div class="info-desc">
+<p>Type of a subtable. 'a is the permission.</p>
+</div>
 </div>
 
-<br>
-<h3 id="3_Opencloseandflushfiles">Open, close, and flush files</h3><br>
-<br>
-The database can be opened in three modes: 
-    read mode, write (create) mode, and append mode.
-<p>
+<h4 id="3_Opencloseandflushfiles">Open, close, and flush files</h4><p>The database can be opened in three modes: 
+    read mode, write (create) mode, and append mode.</p>
 
-    Note that operations are not thread-safe at the library level: do not share a table or subtable handler between threads.
+<p>Note that operations are not thread-safe at the library level: do not share a table or subtable handler between threads.
     However, multiple processes might access the same database, whenever the low-level dbm permits it
     (which depends on the low-level dbm library actually used). 
-    gdbm allows many readers in parallel, or only one writer and no reader.<br>
-<br>
-<h4 id="4_openread">open_read</h4><br>
-
+    gdbm allows many readers in parallel, or only one writer and no reader.</p>
+<h5 id="4_openread">open_read</h5>
 <pre><span id="VALopen_read"><span class="keyword">val</span> open_read</span> : <code class="type">?iterations:int -><br>       file:string -><br>       passwd:string -> signwd:string -> unit -> <a href="Cryptodbm.html#TYPEread">read</a> <a href="Cryptodbm.html#TYPEtable">table</a></code></pre><div class="info ">
-Opens an encrypted-dbm file for reading.<br>
-<b>Raises</b><ul><li><code>Error(File_not_found)</code> the file does not exist or is not readable.</li>
+<div class="info-desc">
+<p>Opens an encrypted-dbm file for reading.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(File_not_found)</code> the file does not exist or is not readable.</li>
 <li><code>Error(Bad_format)</code> the database file uses an incompatible format.</li>
 <li><code>Error(Bad_password)</code> the non-empty given password is incorrect.</li>
 <li><code>Error(Bad_signature</code> the database signature does not match the expected signature, using the given non-empty signword.</li>
 <li><code>Error(No_signature)</code> the database is not signed but a signword is provided.</li>
 <li><code>Error(Corrupted)</code> the database file does not have the expected structure.</li>
+</ul></li>
+<li><b>Returns</b> A new handler to access this database.</li>
 </ul>
-<b>Returns</b> A new handler to access this database.<br>
 </div>
 <div class="param_info"><code class="code">iterations</code> : Number of iterations used to map the password/signword. A higher value means a longer time to open the database.
                        A default value is used if missing (around 12000).
@@ -215,35 +192,39 @@ Opens an encrypted-dbm file for reading.<br>
 <div class="param_info"><code class="code">passwd</code> : Use the given password to decrypt. Use the empty string "" if the file is not encrypted.
                   In order to access only uncrypted bindings of an encrypted file, consider <a href="Cryptodbm.html#VALopen_only_uncrypted"><code class="code">Cryptodbm.open_only_uncrypted</code></a> instead.</div>
 <div class="param_info"><code class="code">signwd</code> : Use the given signword to check the signature. If the signword is the empty string, do not check the signature.</div>
-<br>
-<h4 id="4_openappend">open_append</h4><br>
-
+<h5 id="4_openappend">open_append</h5>
 <pre><span id="VALopen_append"><span class="keyword">val</span> open_append</span> : <code class="type">?iterations:int -><br>       file:string -><br>       passwd:string -><br>       signwd:string -><br>       check_signature:bool -> unit -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a></code></pre><div class="info ">
-Opens an existing encrypted-dbm file in append mode.<br>
-<b>Raises</b><ul><li><code>Error(File_not_appendable)</code> the file does not exists or is not readable, or is not writeable.</li>
+<div class="info-desc">
+<p>Opens an existing encrypted-dbm file in append mode.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(File_not_appendable)</code> the file does not exists or is not readable, or is not writeable.</li>
 <li><code>Error(Bad_format)</code> the database file uses an incompatible format.</li>
 <li><code>Error(Bad_password)</code> the non-empty given password is incorrect.</li>
 <li><code>Error(Bad_signature)</code> the database signature does not match the expected signature, and check_signature is true.</li>
 <li><code>Error(No_signature)</code> the database is not signed, and check_signature is true.</li>
 <li><code>Error(Corrupted)</code> the database file does not have the expected structure.</li>
 <li><code>Failure(some</code> message) check_signature is true but the signwd is empty.</li>
+</ul></li>
+<li><b>Returns</b> A new handler to access this database.</li>
 </ul>
-<b>Returns</b> A new handler to access this database.<br>
 </div>
 <div class="param_info"><code class="code">iterations</code> : Number of iterations used to map the password/signword. (See open_read)</div>
 <div class="param_info"><code class="code">file</code> : The full path to the database file, without the .pag or .dir extension</div>
 <div class="param_info"><code class="code">passwd</code> : Use the given password to decrypt.</div>
 <div class="param_info"><code class="code">signwd</code> : Use the given signword to sign the database.</div>
 <div class="param_info"><code class="code">check_signature</code> : Whether to check the existing signature before appending new data. If the table was not signed, raises No_signature.</div>
-<br>
-<h4 id="4_opencreate">open_create</h4><br>
-
+<h5 id="4_opencreate">open_create</h5>
 <pre><span id="VALopen_create"><span class="keyword">val</span> open_create</span> : <code class="type">file:string -><br>       ?overwrite:bool -><br>       ?iterations:int -><br>       passwd:string -><br>       signwd:string -><br>       ?max_extra_key:int -><br>       ?max_extra_data:int -><br>       ?max_extra_bindings:int -> perm:int -> unit -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a></code></pre><div class="info ">
-Creates a new encrypted-dbm file.<br>
-<b>Raises</b><ul><li><code>Error(File_overwrite)</code> the file already exists and overwriting is not explicitly allowed.</li>
+<div class="info-desc">
+<p>Creates a new encrypted-dbm file.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(File_overwrite)</code> the file already exists and overwriting is not explicitly allowed.</li>
 <li><code>Error(File_not_writeable)</code> the given permission does not allow writing.</li>
+</ul></li>
+<li><b>Returns</b> A new handler to access this database.</li>
 </ul>
-<b>Returns</b> A new handler to access this database.<br>
 </div>
 <div class="param_info"><code class="code">file</code> : The full path to the database file, without the .pag or .dir extension</div>
 <div class="param_info"><code class="code">overwrite</code> : Indicates if overwriting an existing file is allowed.</div>
@@ -255,51 +236,61 @@ Creates a new encrypted-dbm file.<br>
 <div class="param_info"><code class="code">max_extra_bindings</code> : (default 0): because the number of bindings of the table can be guessed without knowing the password,
                          random extra bindings can be added to obfuscate the table.</div>
 <div class="param_info"><code class="code">perm</code> : Unix permission to be used to create the file. Must allow the user to write on this file. Beware that in OCaml, 644 is not equal to 0o644.</div>
-<br>
-<h4 id="4_openonlyuncrypted">open_only_uncrypted</h4><br>
-
+<h5 id="4_openonlyuncrypted">open_only_uncrypted</h5>
 <pre><span id="VALopen_only_uncrypted"><span class="keyword">val</span> open_only_uncrypted</span> : <code class="type">?iterations:int -><br>       file:string -> signwd:string -> unit -> <a href="Cryptodbm.html#TYPEread">read</a> <a href="Cryptodbm.html#TYPEtable">table</a></code></pre><div class="info ">
-Opens a table to access only uncrypted subtables.<br>
-<b>Raises</b><ul><li><code>Error(File_not_found)</code> the file does not exist or is not readable.</li>
+<div class="info-desc">
+<p>Opens a table to access only uncrypted subtables.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(File_not_found)</code> the file does not exist or is not readable.</li>
 <li><code>Error(Bad_format)</code> the database file uses an incompatible format.</li>
 <li><code>Error(Bad_signature)</code> the database signature does not match the expected signature, using the given non-empty signword.</li>
 <li><code>Error(No_signature)</code> the database is not signed but a signword is provided.</li>
 <li><code>Error(Corrupted)</code> the database file does not have the expected structure.</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">iterations</code> : Used to check the signature (useless if the signwd is empty).</div>
 <div class="param_info"><code class="code">file</code> : The full path to the database file, without the .pag or .dir extension</div>
 <div class="param_info"><code class="code">signwd</code> : Use the given signword to check the signature. If the signword is the empty string, do not check the signature.</div>
-<br>
-<h4 id="4_closeflush">close, flush</h4><br>
-
+<h5 id="4_closeflush">close, flush</h5>
 <pre><span id="VALclose"><span class="keyword">val</span> close</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEtable">table</a> -> unit</code></pre><div class="info ">
-If in write mode, sign if necessary, add extra bindings if required, then flush and close the file. 
+<div class="info-desc">
+<p>If in write mode, sign if necessary, add extra bindings if required, then flush and close the file. 
     In read mode, just close the file. 
-    All the subtables are automatically closed.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the database is already closed.<br>
+    All the subtables are automatically closed.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the database is already closed.</li>
+</ul>
 </div>
 
 <pre><span id="VALflush"><span class="keyword">val</span> flush</span> : <code class="type">?backup:bool -> ?backup_name:string -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a> -> unit</code></pre><div class="info ">
-Sign if necessary, and flush. 
-    Optionally make a backup, that is, a copy of the current database file is made (default name is: 'filename'-backup-'date').<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is already closed.</li>
+<div class="info-desc">
+<p>Sign if necessary, and flush. 
+    Optionally make a backup, that is, a copy of the current database file is made (default name is: 'filename'-backup-'date').</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is already closed.</li>
 <li><code>Error(Backup_failure)</code> something went wrong when doing the backup.</li>
+</ul></li>
 </ul>
 </div>
 
 <pre><span id="VALget_rootfile"><span class="keyword">val</span> get_rootfile</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEtable">table</a> -> string</code></pre><div class="info ">
-Returns the root filename (without the .pag or .dir extension).<br>
+<div class="info-desc">
+<p>Returns the root filename (without the .pag or .dir extension).</p>
 </div>
-<br>
-<h3 id="3_Openandcreatesubtables">Open and create subtables</h3><br>
-<br>
-<h4 id="4_createsubtable">create_subtable</h4><br>
-
+</div>
+<h4 id="3_Openandcreatesubtables">Open and create subtables</h4><h5 id="4_createsubtable">create_subtable</h5>
 <pre><span id="VALcreate_subtable"><span class="keyword">val</span> create_subtable</span> : <code class="type"><a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a> -><br>       name:string -><br>       ?iterations:int -><br>       passwd:string -><br>       signwd:string -><br>       ?max_extra_key:int -><br>       ?max_extra_data:int -> unit -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a></code></pre><div class="info ">
-Creates a standard subtable for writing.<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
+<div class="info-desc">
+<p>Creates a standard subtable for writing.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
 <li><code>Error(Subtable_exists)</code> a standard subtable with this name already exists.</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">name</code> : the subtable name. It can be any string.</div>
@@ -312,25 +303,31 @@ Creates a standard subtable for writing.<br>
 <div class="param_info"><code class="code">max_extra_data</code> : Use this max_extra_data (instead of the global table max_extra_data parameter).</div>
 
 <pre><span id="VALcreate_uncrypted_subtable"><span class="keyword">val</span> create_uncrypted_subtable</span> : <code class="type">?iterations:int -><br>       <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a> -><br>       name:string -> signwd:string -> unit -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a></code></pre><div class="info ">
-Creates an uncrypted subtable (even when the global table is encrypted).<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
+<div class="info-desc">
+<p>Creates an uncrypted subtable (even when the global table is encrypted).</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
 <li><code>Error(Subtable_exists)</code> a subtable with this name already exists.</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">iterations</code> : Used to check the signature (useless if the signwd is empty).</div>
 <div class="param_info"><code class="code">name</code> : the subtable name. It can be virtually any string.</div>
 <div class="param_info"><code class="code">signwd</code> : If a signwd is provided, use it to sign this subtable.</div>
-<br>
-<h4 id="4_opensubtable">open_subtable</h4><br>
-
+<h5 id="4_opensubtable">open_subtable</h5>
 <pre><span id="VALopen_subtable"><span class="keyword">val</span> open_subtable</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEtable">table</a> -><br>       name:string -><br>       ?iterations:int -><br>       passwd:string -> signwd:string -> unit -> <a href="Cryptodbm.html#TYPEread">read</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a></code></pre><div class="info ">
-Open a standard subtable for reading.<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
+<div class="info-desc">
+<p>Open a standard subtable for reading.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
 <li><code>Error(Bad_password)</code> the given password does not match this subtable's password.</li>
 <li><code>Error(Bad_signature)</code> the subtable signature does not match the expected signature, using the given non-empty signword.</li>
 <li><code>Error(No_signature)</code> the subtable is not signed, but a signwd was provided.</li>
 <li><code>Error(Is_Already_Open)</code> this subtable (identified by its name) is already open.</li>
 <li><code>Error(No_subtable)</code> no subtable with this name exists (if the subtable is explicitly uncrypted, use <a href="Cryptodbm.html#VALopen_uncrypted_subtable"><code class="code">Cryptodbm.open_uncrypted_subtable</code></a> instead).</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">name</code> : the subtable name.</div>
@@ -339,28 +336,34 @@ Open a standard subtable for reading.<br>
 <div class="param_info"><code class="code">signwd</code> : If a non-empty signword is provided, use it to check the signature of this subtable.</div>
 
 <pre><span id="VALopen_uncrypted_subtable"><span class="keyword">val</span> open_uncrypted_subtable</span> : <code class="type">?iterations:int -><br>       'a <a href="Cryptodbm.html#TYPEtable">table</a> -><br>       name:string -> signwd:string -> unit -> <a href="Cryptodbm.html#TYPEread">read</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a></code></pre><div class="info ">
-Open an uncrypted subtable for reading.<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
+<div class="info-desc">
+<p>Open an uncrypted subtable for reading.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
 <li><code>Error(Bad_signature)</code> the subtable signature does not match the expected signature, using the given non-empty signword.</li>
 <li><code>Error(No_signature)</code> the subtable is not signed, but a signwd was provided.</li>
 <li><code>Error(Is_Already_Open)</code> this subtable (identified by its name) is already open.</li>
 <li><code>Error(No_subtable)</code> no uncrypted subtable with this name exists.</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">iterations</code> : Used to check the signature (useless if the signwd is empty).</div>
 <div class="param_info"><code class="code">name</code> : the subtable name.</div>
 <div class="param_info"><code class="code">signwd</code> : If a non-empty signword is provided, use it to check the signature of this subtable.</div>
-<br>
-<h4 id="4_appendsubtable">append_subtable</h4><br>
-
+<h5 id="4_appendsubtable">append_subtable</h5>
 <pre><span id="VALappend_subtable"><span class="keyword">val</span> append_subtable</span> : <code class="type"><a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a> -><br>       name:string -><br>       ?iterations:int -><br>       passwd:string -><br>       signwd:string -><br>       check_signature:bool -> unit -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a></code></pre><div class="info ">
-Open a standard subtable for appending bindings.<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
+<div class="info-desc">
+<p>Open a standard subtable for appending bindings.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
 <li><code>Error(Bad_password)</code> the given password does not match this subtable's password.</li>
 <li><code>Error(Bad_signature)</code> the subtable signature does not match the expected signature, using the given non-empty signword.</li>
 <li><code>Error(No_signature)</code> the subtable is not signed, but a signwd was provided.</li>
 <li><code>Error(Is_Already_Open)</code> this subtable (identified by its name) is already open.</li>
 <li><code>Error(No_subtable)</code> no standard subtable with this name exists (if the subtable is explicitly uncrypted, use <a href="Cryptodbm.html#VALappend_uncrypted_subtable"><code class="code">Cryptodbm.append_uncrypted_subtable</code></a> instead).</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">name</code> : the subtable name.</div>
@@ -370,109 +373,152 @@ Open a standard subtable for appending bindings.<br>
 <div class="param_info"><code class="code">check_signature</code> : Whether to check the existing signature before appending new data. If the subtable was not signed, this parameter has no effect.</div>
 
 <pre><span id="VALappend_uncrypted_subtable"><span class="keyword">val</span> append_uncrypted_subtable</span> : <code class="type">?iterations:int -><br>       <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEtable">table</a> -><br>       name:string -><br>       signwd:string -><br>       check_signature:bool -> unit -> <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a></code></pre><div class="info ">
-Open an uncrypted subtable for appending bindings.<br>
-<b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
+<div class="info-desc">
+<p>Open an uncrypted subtable for appending bindings.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Is_Closed)</code> the database is closed.</li>
 <li><code>Error(Bad_signature)</code> the subtable signature does not match the expected signature, using the given non-empty signword.</li>
 <li><code>Error(No_signature)</code> the subtable is not signed, but a signwd was provided.</li>
 <li><code>Error(Is_Already_Open)</code> this subtable (identified by its name) is already open.</li>
 <li><code>Error(No_subtable)</code> no uncrypted subtable with this name exists.</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">iterations</code> : Used to check the signature (useless if the signwd is empty).</div>
 <div class="param_info"><code class="code">name</code> : the subtable name.</div>
 <div class="param_info"><code class="code">signwd</code> : Use the given signword to sign this subtable.</div>
 <div class="param_info"><code class="code">check_signature</code> : Whether to check the existing signature before appending new data. If the subtable was not signed, this parameter has no effect.</div>
-<br>
-<h4 id="4_close">close</h4><br>
-
+<h5 id="4_close">close</h5>
 <pre><span id="VALclose_subtable"><span class="keyword">val</span> close_subtable</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> unit</code></pre><div class="info ">
-If in write mode, sign if necessary, then flush and close the subtable.
-    In read mode, just close the subtable.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.<br>
+<div class="info-desc">
+<p>If in write mode, sign if necessary, then flush and close the subtable.
+    In read mode, just close the subtable.</p>
 </div>
-<br>
-<h3 id="3_Gettersanditeratorsoversubtables">Getters and iterators over subtables</h3><br>
-
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul>
+</div>
+<h4 id="3_Gettersanditeratorsoversubtables">Getters and iterators over subtables</h4>
 <pre><span id="VALget_number"><span class="keyword">val</span> get_number</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> int</code></pre><div class="info ">
-Returns this subtable's identifier (a number).<br>
+<div class="info-desc">
+<p>Returns this subtable's identifier (a number).</p>
+</div>
 </div>
 
 <pre><span id="VALget_name"><span class="keyword">val</span> get_name</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> string</code></pre><div class="info ">
-Returns this subtable's name.<br>
+<div class="info-desc">
+<p>Returns this subtable's name.</p>
+</div>
 </div>
 
 <pre><span id="VALiter_subtables"><span class="keyword">val</span> iter_subtables</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEtable">table</a> -> (string -> int -> unit) -> unit</code></pre><div class="info ">
-Iterate over standard subtables. The function is applied to the subtable name and number.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the table is already closed.<br>
+<div class="info-desc">
+<p>Iterate over standard subtables. The function is applied to the subtable name and number.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the table is already closed.</li>
+</ul>
 </div>
 
 <pre><span id="VALiter_uncrypted_subtables"><span class="keyword">val</span> iter_uncrypted_subtables</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEtable">table</a> -> (string -> int -> unit) -> unit</code></pre><div class="info ">
-Iterate over uncrypted subtables.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the table is already closed.<br>
+<div class="info-desc">
+<p>Iterate over uncrypted subtables.</p>
 </div>
-<br>
-<h3 id="3_Operationsonbindingsaddfinddeleteiterate">Operations on bindings: add, find, delete, iterate</h3><br>
-
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the table is already closed.</li>
+</ul>
+</div>
+<h4 id="3_Operationsonbindingsaddfinddeleteiterate">Operations on bindings: add, find, delete, iterate</h4>
 <pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type">?may_overwrite:bool -><br>       <a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> key:string -> data:string -> unit</code></pre><div class="info ">
-<code class="code">add subt key data</code> binds <code class="code">key</code> to <code class="code">data</code> in subtable <code class="code">subt</code>.
-    By default, overwriting an existing binding is forbidden.<br>
-<b>Raises</b><ul><li><code>Error(Overwrite)</code> the key is already bound and <code class="code">may_overwrite</code> is false.</li>
+<div class="info-desc">
+<p><code class="code">add subt key data</code> binds <code class="code">key</code> to <code class="code">data</code> in subtable <code class="code">subt</code>.
+    By default, overwriting an existing binding is forbidden.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Overwrite)</code> the key is already bound and <code class="code">may_overwrite</code> is false.</li>
 <li><code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul></li>
 </ul>
 </div>
 <div class="param_info"><code class="code">may_overwrite</code> : if true, replacing an old binding by a new binding is permitted.</div>
 
 <pre><span id="VALfind"><span class="keyword">val</span> find</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> string -> string</code></pre><div class="info ">
-<code class="code">find subt key</code> returns the data associated to <code class="code">key</code> in subtable <code class="code">subt</code>.<br>
-<b>Raises</b><ul><li><code>Error(Unbound)</code> the key is not bound in this subtable.</li>
+<div class="info-desc">
+<p><code class="code">find subt key</code> returns the data associated to <code class="code">key</code> in subtable <code class="code">subt</code>.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Unbound)</code> the key is not bound in this subtable.</li>
 <li><code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul></li>
 </ul>
 </div>
 
 <pre><span id="VALdelete"><span class="keyword">val</span> delete</span> : <code class="type"><a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> string -> unit</code></pre><div class="info ">
-<code class="code">delete subt key</code> removes the binding associated to <code class="code">key</code> in subtable <code class="code">subt</code>.<br>
-<b>Raises</b><ul><li><code>Error(Unbound)</code> the key is not bound in this subtable.</li>
+<div class="info-desc">
+<p><code class="code">delete subt key</code> removes the binding associated to <code class="code">key</code> in subtable <code class="code">subt</code>.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b><ul><li><code>Error(Unbound)</code> the key is not bound in this subtable.</li>
 <li><code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul></li>
 </ul>
 </div>
 
 <pre><span id="VALclear"><span class="keyword">val</span> clear</span> : <code class="type"><a href="Cryptodbm.html#TYPEfull">full</a> <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> unit</code></pre><div class="info ">
-<code class="code">clear subt</code> removes all the bindings in subtable <code class="code">subt</code>.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.<br>
+<div class="info-desc">
+<p><code class="code">clear subt</code> removes all the bindings in subtable <code class="code">subt</code>.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul>
 </div>
 
 <pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> (string -> string -> unit) -> unit</code></pre><div class="info ">
-Iterate over all pairs (key, data) of the given subtable.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.<br>
+<div class="info-desc">
+<p>Iterate over all pairs (key, data) of the given subtable.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul>
 </div>
 
 <pre><span id="VALiterkey"><span class="keyword">val</span> iterkey</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> (string -> unit) -> unit</code></pre><div class="info ">
-Iterate over all keys of the given subtable. Faster than <code class="code">iter</code> since data is not decrypted.<br>
-<b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.<br>
+<div class="info-desc">
+<p>Iterate over all keys of the given subtable. Faster than <code class="code">iter</code> since data is not decrypted.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Raises</b> <code>Error(Is_Closed)</code> the subtable is already closed.</li>
+</ul>
 </div>
 
 <pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEsubtable">subtable</a> -> 'b -> (string -> string -> 'b -> 'b) -> 'b</code></pre><div class="info ">
-See iter.<br>
+<div class="info-desc">
+<p>See iter.</p>
+</div>
 </div>
 
 <pre><span id="VALiter_extra_bindings"><span class="keyword">val</span> iter_extra_bindings</span> : <code class="type">'a <a href="Cryptodbm.html#TYPEtable">table</a> -> (string -> string -> unit) -> unit</code></pre><div class="info ">
-For debugging.<br>
+<div class="info-desc">
+<p>For debugging.</p>
 </div>
-<br>
-<h3 id="3_Durablebackup">Durable backup</h3><br>
-<br>
-The underlying database file is managed by the dbm library actually installed on the runtime platform. 
+</div>
+<h4 id="3_Durablebackup">Durable backup</h4><p>The underlying database file is managed by the dbm library actually installed on the runtime platform. 
     For portability, or to ensure that your data does not depend on a particular version of the dbm library, 
-    you can use these functions which convert dbm files to and from an ad-hoc, very simple binary format.<br>
+    you can use these functions which convert dbm files to and from an ad-hoc, very simple binary format.</p>
 
 <pre><span id="VALexport"><span class="keyword">val</span> export</span> : <code class="type"><a href="Cryptodbm.html#TYPEread">read</a> <a href="Cryptodbm.html#TYPEtable">table</a> -> binfile:string -> unit</code></pre><div class="info ">
-Exports a dbfile to a durable binary format. 
+<div class="info-desc">
+<p>Exports a dbfile to a durable binary format. 
     The dbfile must be opened for reading (open_only_uncrypted suffices, in case the passwords are not known). 
-    Note that the binary file just mirrors the dbfile (that is, they both contain the same encrypted &amp; uncrypted data).<br>
+    Note that the binary file just mirrors the dbfile (that is, they both contain the same encrypted &amp; uncrypted data).</p>
+</div>
 </div>
 
 <pre><span id="VALimport"><span class="keyword">val</span> import</span> : <code class="type">binfile:string -> dbfile:string -> unit</code></pre><div class="info ">
-Imports a binary file to a dbfile. 
-    <code class="code">dbfile</code> is the output dbfile, without .pag or .dir extension<br>
+<div class="info-desc">
+<p>Imports a binary file to a dbfile. 
+    <code class="code">dbfile</code> is the output dbfile, without .pag or .dir extension</p>
+</div>
 </div>
 </body></html>

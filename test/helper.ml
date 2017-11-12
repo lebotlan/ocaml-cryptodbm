@@ -5,12 +5,7 @@ open Big_int_Z
 
 (* Converts an arbitrary string into a printable string (without escape codes). *)
 let convert_char c = if Char.code c < 32 || Char.code c > 126 then '.' else c
-let convert s =
-  let s = Bytes.of_string s in
-  for i = 0 to String.length s - 1 do
-    Bytes.set s i (convert_char s.[i])
-  done ;
-  s
+let convert s = String.map convert_char s
 
 let kind2s kind =
   (loc2s kind.key_loc) ^ 
