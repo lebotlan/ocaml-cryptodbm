@@ -14,13 +14,13 @@ val empty : string -> int -> read sub
  * name: subtable name, used to report error messages precisely.
  * salt: the table salt
  * how: table password (salted, strengthened) and subtable password (plain: not salted, not strengthen). *)
-val open_read : 'a handler -> name:string -> subt:int -> how:(passwd * string) howstored -> 
+val open_read : 'a handler -> name:string -> subt:int -> iterations:int -> how:(passwd * string) howstored -> 
   signwd:string -> read sub
 
-val open_full : full handler -> name:string -> subt:int -> how:(passwd * string) howstored -> 
+val open_full : full handler -> name:string -> subt:int -> iterations:int -> how:(passwd * string) howstored -> 
    signwd:string -> max_extra_key:int -> max_extra_data:int -> full sub
 
-val open_append : full handler -> name:string -> subt:int -> how:(passwd * string) howstored ->
+val open_append : full handler -> name:string -> subt:int -> iterations:int -> how:(passwd * string) howstored ->
   signwd:string -> check_signature:bool -> full sub
 
 val close : 'a sub -> unit

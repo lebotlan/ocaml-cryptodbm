@@ -6,11 +6,6 @@ cryptodbm is an **[OCaml](http://ocaml.org/) library** that provides an encrypte
 
 Install with [opam](https://opam.ocaml.org/): `opam install cryptodbm`
 
-Note : for the moment the cryptodbm opam repository is out of date... I am waiting for opam-publish to work
-(or to fix my wrng usage of it)
-see issue https://github.com/ocaml/opam-publish/issues/55
-
-
 ## API Documentation
 
 The [Cryptodbm API](https://lebotlan.github.io/ocaml-cryptodbm/index.html).

@@ -13,7 +13,7 @@ let trytest () =
   let _ = encryptfun "a" in
   Printf.printf "done\n%!" ;
 
-  let encrypted = encryptfun "b" in
+  let encrypted = encryptfun "-my message-" in
   Printf.printf "done2\n%!" ;
 
   Printf.printf "Decrypt ... %!" ;

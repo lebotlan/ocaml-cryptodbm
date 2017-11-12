@@ -6,7 +6,7 @@ type passwd
 type t = passwd
 
 (* mk_passwd is very expansive. Call it once when possible. *)
-val mk_passwd : string -> passwd
+val mk_passwd : iterations:int -> string -> passwd
 
 (* Creates the password as such, without strengthening. *)
 val mk_weak_passwd : string -> passwd
@@ -41,5 +41,7 @@ val decrypt : passwd:passwd -> string -> string
  * Returns a value in [0..max_pad]. *)
 val compute_padding : key:string -> passwd:passwd -> max_pad:int -> int
 
-
+(* Generates a random salt string. *)
+val random_salt: len:int -> string
+  
 

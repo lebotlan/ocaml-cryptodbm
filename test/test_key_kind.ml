@@ -10,6 +10,8 @@ open Exenum
 open Big_int
 open Exenum_internals.Convenience
 
+let iterations = 15000
+
 (* Enumerators *)
 
 (* We only test a few subtable numbers. *)
@@ -73,7 +75,7 @@ let mk_config (table_encryption, subts) =
   let subt_info n =
     try
       let (_, r, p) = List.find (fun (i, _, _) -> i = n) subtables_encryption in
-      (Cipher.mk_passwd r, p)
+      (Cipher.mk_passwd ~iterations r, p)
     with Not_found -> assert false (* The given subtable number was not found. Impossible! *)
   in
 
@@ -94,7 +96,7 @@ module Col = Collision
 let get_how config location =
 
   let (table_passwd, table_pad) = config.table_encryption in
-  let table_passwd = Cipher.mk_passwd table_passwd in
+  let table_passwd = Cipher.mk_passwd ~iterations table_passwd in
 
   match location with
   | Table_Builtin ->

@@ -1,3 +1,6 @@
+===== 0.84 (2017-11-12) =====
+  * Can specify number of iterations to enforce the password/signword.
+  
 ===== 0.82 (2017-07-09) =====
   * Moving to github
   * Switched from ocamlbuild to jbuilder

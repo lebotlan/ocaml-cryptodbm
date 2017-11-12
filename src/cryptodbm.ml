@@ -126,7 +126,7 @@ let get_max_subt dic =
 	  
 (* open_dict for the uncrypted dictionary.
  * open_dict2 for the encrypted dictionary and extra bindings. *)
-let open_aux handler open_dict open_dict2 passwd ~signwd ~check_signature =
+let open_aux handler open_dict open_dict2 ~iterations passwd ~signwd ~check_signature =
 
   if check_signature && signwd = "" then 
     failwith "Table.open_append: check_signature is true, but no signword is given. I need one in order to check the file signature." ;
@@ -143,7 +143,7 @@ let open_aux handler open_dict open_dict2 passwd ~signwd ~check_signature =
     (* Signword *)
     let signwd =
       if signwd = "" then Cipher.empty_passwd
-      else Cipher.mk_passwd (Config.add_salt salt signwd)
+      else Cipher.mk_passwd ~iterations (Config.add_salt salt signwd)
     in
 
     (* Check signature *)
@@ -169,7 +169,7 @@ let open_aux handler open_dict open_dict2 passwd ~signwd ~check_signature =
 	  (* Salts the password. *)
 	  let table_passwd = 
 	    if passwd = "" then Cipher.empty_passwd
-	    else Cipher.mk_passwd (Config.add_salt salt passwd)
+	    else Cipher.mk_passwd ~iterations (Config.add_salt salt passwd)
 	  in
 	  
 	  (* Kind used for table parameters: use password and salt, but no padding. *)
@@ -249,20 +249,20 @@ let open_aux handler open_dict open_dict2 passwd ~signwd ~check_signature =
 
 let open_dict_empty _ ~name ~subt ~how = Subtable.empty name subt
 
-let open_read ~file ~passwd ~signwd =
+let open_read ?(iterations=Config.passwd_iterations) ~file ~passwd ~signwd () =
   let handler = Operations.open_read ~file in
-  let open_dict handler ~name ~subt ~how = Subtable.open_read handler ~name ~subt ~how ~signwd:"" in
-  open_aux handler open_dict open_dict (Some passwd) ~signwd ~check_signature:(signwd <> "")
+  let open_dict handler ~name ~subt ~how = Subtable.open_read handler ~name ~subt ~iterations ~how ~signwd:"" in
+  open_aux handler open_dict open_dict ~iterations (Some passwd) ~signwd ~check_signature:(signwd <> "")
 
-let open_only_uncrypted ~file ~signwd =
+let open_only_uncrypted ?(iterations=Config.passwd_iterations) ~file ~signwd () =
   let handler = Operations.open_read ~file in  
-  let open_dict handler ~name ~subt ~how = Subtable.open_read handler ~name ~subt ~how ~signwd:"" in
-  open_aux handler open_dict open_dict_empty None ~signwd ~check_signature:(signwd <> "")
+  let open_dict handler ~name ~subt ~how = Subtable.open_read handler ~name ~subt ~iterations:0 ~how ~signwd:"" in
+  open_aux handler open_dict ~iterations open_dict_empty None ~signwd ~check_signature:(signwd <> "")
 
-let open_append ~file ~passwd ~signwd ~check_signature =
+let open_append ?(iterations=Config.passwd_iterations) ~file ~passwd ~signwd ~check_signature () =
   let handler = Operations.open_append ~file in
-  let open_dict handler ~name ~subt ~how = Subtable.open_append handler ~name ~subt ~how ~signwd:"" ~check_signature:false in
-  let table = open_aux handler open_dict open_dict (Some passwd) ~signwd ~check_signature in
+  let open_dict handler ~name ~subt ~how = Subtable.open_append handler ~name ~subt ~iterations ~how ~signwd:"" ~check_signature:false in
+  let table = open_aux handler open_dict open_dict (Some passwd) ~iterations ~signwd ~check_signature in
   table.status <- Full table ;
 
   (* If the table was signed, we remove the signature. 
@@ -271,7 +271,7 @@ let open_append ~file ~passwd ~signwd ~check_signature =
 
   table
 
-let open_create ~file ?overwrite ~passwd ~signwd ?(max_extra_key=0)
+let open_create ~file ?overwrite ?(iterations=Config.passwd_iterations) ~passwd ~signwd ?(max_extra_key=0)
     ?(max_extra_data=0) ?(max_extra_bindings=0) ~perm () =
 
   let handler = Operations.open_full ?overwrite ~file ~perm in
@@ -289,7 +289,7 @@ let open_create ~file ?overwrite ~passwd ~signwd ?(max_extra_key=0)
     (* Salts the password. *)
     let table_passwd = 
       if passwd = "" then Cipher.empty_passwd
-      else Cipher.mk_passwd (Config.add_salt salt passwd)
+      else Cipher.mk_passwd ~iterations (Config.add_salt salt passwd)
     in
 
     (* Kind used for table parameters: use password and salt, but no padding. *)
@@ -319,7 +319,7 @@ let open_create ~file ?overwrite ~passwd ~signwd ?(max_extra_key=0)
       | Uncrypted -> Uncrypted
       | Encrypted (tp, _, _) -> Encrypted (tp, "")
     in
-    let openf = Subtable.open_full handler ~max_extra_key:0 ~max_extra_data:0 ~signwd:"" in
+    let openf = Subtable.open_full handler ~max_extra_key:0 ~max_extra_data:0 ~iterations ~signwd:"" in
     let diction = openf ~name:Config.dictionary ~subt:0 ~how:diction_how
     and uncrypted_diction = openf ~name:Config.uncrypted_dictionary ~subt:1 ~how:Kinds.Uncrypted
     and extra_bindings = openf ~name:Config.extra_bindings ~subt:2 ~how:diction_how in
@@ -327,7 +327,7 @@ let open_create ~file ?overwrite ~passwd ~signwd ?(max_extra_key=0)
     (* Signword *)
     let signwd =
       if signwd = "" then Cipher.empty_passwd
-      else Cipher.mk_passwd (Config.add_salt salt signwd)
+      else Cipher.mk_passwd ~iterations (Config.add_salt salt signwd)
     in
  
     let rec table =
@@ -469,7 +469,7 @@ let check_opened_subtable table id =
   check table.full_subtables ;
   ()
 
-let open_subtable_aux table ~name ~signwd open_sub htbl pass =
+let open_subtable_aux table ~name ~iterations ~signwd open_sub htbl pass =
   
   if table.status = Closed then error is_closed ;
 
@@ -498,7 +498,7 @@ let open_subtable_aux table ~name ~signwd open_sub htbl pass =
 	else Kinds.Encrypted (table.table_passwd, p)
   in
   
-  let sub = open_sub table.handler ~name ~subt:number ~how ~signwd in
+  let sub = open_sub table.handler ~name ~subt:number ~iterations ~how ~signwd in
 
   let subtable =
     { id ;
@@ -511,27 +511,28 @@ let open_subtable_aux table ~name ~signwd open_sub htbl pass =
 
   subtable
 
-let open_subtable table ~name ~passwd ~signwd () =
-  open_subtable_aux table ~name ~signwd Subtable.open_read table.read_subtables (Some passwd)
+let open_subtable table ~name ?(iterations=Config.passwd_iterations) ~passwd ~signwd () =
+  open_subtable_aux table ~name ~iterations ~signwd Subtable.open_read table.read_subtables (Some passwd)
 
-let open_uncrypted_subtable table ~name ~signwd () =
-  open_subtable_aux table ~name ~signwd Subtable.open_read table.read_subtables None
+(* 'Iterations' is used to compute the signwd. *)
+let open_uncrypted_subtable ?(iterations=Config.passwd_iterations) table ~name ~signwd () =
+  open_subtable_aux table ~name ~iterations ~signwd Subtable.open_read table.read_subtables None
 
-let append_subtable table ~name ~passwd ~signwd ~check_signature () = 
-  let subtable = open_subtable_aux table ~name ~signwd (Subtable.open_append ~check_signature) table.full_subtables (Some passwd) in
+let append_subtable table ~name ?(iterations=Config.passwd_iterations) ~passwd ~signwd ~check_signature () = 
+  let subtable = open_subtable_aux table ~name ~iterations ~signwd (Subtable.open_append ~check_signature) table.full_subtables (Some passwd) in
   (* If the table was signed, we remove the signature. *)
   Subtable.remove_signature subtable.sub ;
   subtable 
 
-let append_uncrypted_subtable table ~name ~signwd ~check_signature () =
-  let subtable = open_subtable_aux table ~name ~signwd (Subtable.open_append ~check_signature) table.full_subtables None in
+let append_uncrypted_subtable ?(iterations=Config.passwd_iterations) table ~name ~signwd ~check_signature () =
+  let subtable = open_subtable_aux table ~name ~iterations ~signwd (Subtable.open_append ~check_signature) table.full_subtables None in
   Subtable.remove_signature subtable.sub ;
   subtable
 
 
 (*** Creates a subtable ***)
 
-let create_subtable_aux table ~name ~signwd ?(max_extra_key=table.max_extra_key) ?(max_extra_data=table.max_extra_data) pass =
+let create_subtable_aux table ~name ~iterations ~signwd ?(max_extra_key=table.max_extra_key) ?(max_extra_data=table.max_extra_data) pass =
 
   if table.status = Closed then error is_closed ;
   
@@ -555,7 +556,7 @@ let create_subtable_aux table ~name ~signwd ?(max_extra_key=table.max_extra_key)
 	else Kinds.Encrypted (table.table_passwd, p)
   in
 
-  let sub = Subtable.open_full table.handler ~name ~subt:number ~how ~signwd ~max_extra_key ~max_extra_data in
+  let sub = Subtable.open_full table.handler ~name ~subt:number ~iterations ~how ~signwd ~max_extra_key ~max_extra_data in
 
   let id = if pass = None then Uncr name else Stand name in
 
@@ -573,11 +574,11 @@ let create_subtable_aux table ~name ~signwd ?(max_extra_key=table.max_extra_key)
 
   
 
-let create_subtable table ~name ~passwd ~signwd ?max_extra_key ?max_extra_data () =
-  create_subtable_aux table ~name ~signwd ?max_extra_key ?max_extra_data (Some passwd)
+let create_subtable table ~name ?(iterations=Config.passwd_iterations) ~passwd ~signwd ?max_extra_key ?max_extra_data () =
+  create_subtable_aux table ~name ~iterations ~signwd ?max_extra_key ?max_extra_data (Some passwd)
 
-let create_uncrypted_subtable table ~name ~signwd () =
-  create_subtable_aux table ~name ~signwd ~max_extra_key:0 ~max_extra_data:0 None
+let create_uncrypted_subtable ?(iterations=Config.passwd_iterations) table ~name ~signwd () =
+  create_subtable_aux table ~name ~iterations ~signwd ~max_extra_key:0 ~max_extra_data:0 None
 
 let iter_subtables table f =
   if table.status = Closed then error is_closed ;

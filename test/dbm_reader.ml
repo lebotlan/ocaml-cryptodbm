@@ -113,16 +113,16 @@ let commands =
 
     (fun env l -> Scanf.sscanf l "%s = open \"%s@\" \"%s@\" \"%s@\""
 	(fun var file passwd signwd ->
-	  assign env var (Rtable (Cryptodbm.open_read ~file ~passwd ~signwd)))) ;
+	  assign env var (Rtable (Cryptodbm.open_read ~file ~passwd ~signwd ())))) ;
 
     (fun env l -> Scanf.sscanf l "%s = ropen \"%s@\" \"%s@\""
 	(fun var file signwd ->
-	  assign env var (Rtable (Cryptodbm.open_only_uncrypted ~file ~signwd)))) ;
+	  assign env var (Rtable (Cryptodbm.open_only_uncrypted ~file ~signwd ())))) ;
 
     (fun env l -> Scanf.sscanf l "%s = append \"%s@\" \"%s@\" \"%s@\" \"%s@\""
 	(fun var file passwd signwd check ->
 	  let check_signature = to_bool check in
-	  assign env var (Ftable (Cryptodbm.open_append ~file ~passwd ~signwd ~check_signature)))) ;
+	  assign env var (Ftable (Cryptodbm.open_append ~file ~passwd ~signwd ~check_signature ())))) ;
 
     (fun env l -> Scanf.sscanf l "%s = create \"%s@\" \"%s@\" \"%s@\" \"%s@\" \"%s@\" \"%s@\" \"%s@\" \"%s@\""
 	(fun var file overwrite passwd signwd max_extra_key max_extra_data max_extra_bindings perm ->

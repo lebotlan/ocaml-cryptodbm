@@ -60,10 +60,10 @@ let get_table_passwds sub =
 
 (* Salts the given key kind. 
  * sub_pw is just a string, we transform it into a (strong) password. *)
-let get_salted_key_how salt max_extra_key = function
+let get_salted_key_how ~iterations salt max_extra_key = function
   | Uncrypted -> Uncrypted
   | Encrypted (tab_pw, "") -> Encrypted (tab_pw, Cipher.empty_passwd, max_extra_key)
-  | Encrypted (tab_pw, sub_pw) -> Encrypted (tab_pw, Cipher.mk_passwd (Config.add_salt salt sub_pw), max_extra_key)
+  | Encrypted (tab_pw, sub_pw) -> Encrypted (tab_pw, Cipher.mk_passwd ~iterations (Config.add_salt salt sub_pw), max_extra_key)
 
 let get_semi_uncrypted = function
   | Uncrypted -> Uncrypted
@@ -120,7 +120,7 @@ let compute_and_check_signature subtable =
 	if Signature.equal signature read_signature then ()
 	else error bad_signature subtable
 
-let open_aux handler status ~name ~subt ~how ~signwd ~check_signature =
+let open_aux handler status ~name ~subt ~iterations ~how ~signwd ~check_signature =
 
   (* Key kind to get the subtable salt. *)
   let salt_key_kind = mk_key (Subtable_Builtin subt) (get_semi_uncrypted how) in
@@ -145,10 +145,10 @@ let open_aux handler status ~name ~subt ~how ~signwd ~check_signature =
   (* Signword *)
   let signwd =
     if signwd = "" then Cipher.empty_passwd
-    else Cipher.mk_passwd (Config.add_salt sub_salt signwd)
+    else Cipher.mk_passwd ~iterations (Config.add_salt sub_salt signwd)
   in
 
-  let how = get_salted_key_how sub_salt max_extra_key how in
+  let how = get_salted_key_how ~iterations sub_salt max_extra_key how in
 
   let builtin_key_kind = mk_key (Subtable_Builtin subt) how
   and user_key_kind    = mk_key (Subtable_User subt) how in
@@ -175,13 +175,13 @@ let open_aux handler status ~name ~subt ~how ~signwd ~check_signature =
 
   subtable
 
-let open_read handler ~name ~subt ~how ~signwd =
-  open_aux (Operations.cast handler) Read ~name ~subt ~how ~signwd ~check_signature:true
+let open_read handler ~name ~subt ~iterations ~how ~signwd =
+  open_aux (Operations.cast handler) Read ~name ~subt ~iterations ~how ~signwd ~check_signature:true
 
-let open_append handler ~name ~subt ~how ~signwd ~check_signature =
-  open_aux handler (Full handler) ~name ~subt ~how ~signwd ~check_signature
+let open_append handler ~name ~subt ~iterations ~how ~signwd ~check_signature =
+  open_aux handler (Full handler) ~name ~subt ~iterations ~how ~signwd ~check_signature
 
-let open_full handler ~name ~subt ~how ~signwd ~max_extra_key ~max_extra_data =
+let open_full handler ~name ~subt ~iterations ~how ~signwd ~max_extra_key ~max_extra_data =
 
   if subt > Kinds.max_subtable then raiserror Subtable_overflow ;
 
@@ -199,10 +199,10 @@ let open_full handler ~name ~subt ~how ~signwd ~max_extra_key ~max_extra_data =
   (* Signword *)
   let signwd =
     if signwd = "" then Cipher.empty_passwd
-    else Cipher.mk_passwd (Config.add_salt sub_salt signwd)
+    else Cipher.mk_passwd ~iterations (Config.add_salt sub_salt signwd)
   in
 
-  let how = get_salted_key_how sub_salt max_extra_key how in
+  let how = get_salted_key_how ~iterations sub_salt max_extra_key how in
 
   let builtin_key_kind = mk_key (Subtable_Builtin subt) how
   and user_key_kind    = mk_key (Subtable_User subt) how in

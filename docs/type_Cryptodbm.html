@@ -42,15 +42,19 @@
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;full<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;subtable<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;open_read&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;file:string&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.read&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.read&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;open_append&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;file:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;check_signature:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;check_signature:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;open_create&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;file:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?overwrite:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?max_extra_key:int&nbsp;<span class="keywordsign">-&gt;</span><br>
@@ -58,7 +62,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;?max_extra_bindings:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;perm:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;open_only_uncrypted&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;file:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.read&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;file:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.read&nbsp;<span class="constructor">Cryptodbm</span>.table<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;close&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flush&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;?backup:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
@@ -67,28 +72,34 @@
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_subtable&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;name:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?max_extra_key:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?max_extra_data:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.subtable<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_uncrypted_subtable&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;name:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.subtable<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;open_subtable&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;name:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.read&nbsp;<span class="constructor">Cryptodbm</span>.subtable<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;open_uncrypted_subtable&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;name:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.read&nbsp;<span class="constructor">Cryptodbm</span>.subtable<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;append_subtable&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;name:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;passwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;check_signature:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.subtable<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;append_uncrypted_subtable&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?iterations:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Cryptodbm</span>.full&nbsp;<span class="constructor">Cryptodbm</span>.table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;name:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;signwd:string&nbsp;<span class="keywordsign">-&gt;</span><br>

@@ -4,9 +4,11 @@ open Helper
 
 (* cd .. && ocamlbuild -use-ocamlfind test/test_data_kind.native *)
 
-let password1 = Cipher.mk_passwd "This is my password"
-let password2 = Cipher.mk_passwd "_"
-let password3 = Cipher.mk_passwd " o\000%*+"
+let iterations = 14000
+
+let password1 = Cipher.mk_passwd ~iterations "This is my password"
+let password2 = Cipher.mk_passwd ~iterations "_"
+let password3 = Cipher.mk_passwd ~iterations " o\000%*+"
 
 let data_kinds = 
   [ mk_data Uncrypted ;

@@ -1,8 +1,8 @@
 open Types
 
 type passwd =
-    { plain_passwd : string ;
-      strong_passwd  : string }
+  { plain_passwd : string ;
+    strong_passwd  : string }
 
 type t = passwd
 
@@ -60,7 +60,7 @@ let compute_padding ~key ~passwd ~max_pad =
  *   n is supposed large enough,
  *   f x is the encryption of x with p, xored with its own hashcode.
  *       the xor operation is used to add some complexity mixing encryption and hashing
- *)
+*)
 
 (* xor s1 with (repeating copies of) s2, starting at position pos, finishing at len1. *)
 let rec circular_xor s1 s2 pos len1 len2 =
@@ -72,7 +72,7 @@ let rec circular_xor s1 s2 pos len1 len2 =
       circular_xor s1 s2 (pos + n) len1 len2
     end
 
-let compute_strong_passwd p =
+let compute_strong_passwd iterations p =
 
   let rec iterate current n =
     (* Printf.printf "Iterate = %d\n%!" n ; *)
@@ -92,14 +92,14 @@ let compute_strong_passwd p =
   in
 
   (* Start from the password itself. *)
-  try digest (iterate p Config.passwd_iterations)
+  try digest (iterate p (abs iterations))
   with _ -> assert false (* This is not supposed to fail. *)
 
-let mk_passwd p =
+let mk_passwd ~iterations p =
   if p = "" then empty_passwd
   else 
     { plain_passwd = p ;
-      strong_passwd  = compute_strong_passwd p } 
+      strong_passwd  = compute_strong_passwd iterations p } 
 
 let mk_weak_passwd p =
   if p = "" then empty_passwd
@@ -113,7 +113,9 @@ let concat plist =
       if p == empty_passwd then acu
       else if acu == empty_passwd then p
       else
-	{ plain_passwd = acu.plain_passwd ^ p.plain_passwd ;
-	  strong_passwd = acu.strong_passwd ^ p.strong_passwd }
+        { plain_passwd = acu.plain_passwd ^ p.plain_passwd ;
+          strong_passwd = acu.strong_passwd ^ p.strong_passwd }
     end
     empty_passwd plist
+
+let random_salt ~len = Utils.(random_string Utils.gen len)

@@ -1,6 +1,6 @@
 
 (* Our format version *)
-let current_format_version = "0.82"
+let current_format_version = "0.83"
 
 (*** Builtin bindings ***)
 
