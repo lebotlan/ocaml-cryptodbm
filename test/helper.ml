@@ -1,7 +1,7 @@
 open Cryptodbm_internals
 open Kinds
 open Exenum_internals.Convenience
-open Big_int
+open Big_int_Z
 
 (* Converts an arbitrary string into a printable string (without escape codes). *)
 let convert_char c = if Char.code c < 32 || Char.code c > 126 then '.' else c
@@ -21,7 +21,7 @@ let kind2s kind =
 let rec direct_bigint_aux s index len hash =
   if index >= len then hash
   else
-    let hash' = (Char.code s.[index]) +++ (shift_left_big_int hash 8) in
+    let hash' = (shift_left_big_int hash 8) +++ (Char.code s.[index]) in
     direct_bigint_aux s (index+1) len hash'
 
 let direct_bigint s = direct_bigint_aux s 0 (String.length s) bigzero

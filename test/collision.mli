@@ -19,7 +19,7 @@ val hashsize : detector -> int
  * Returns false if this hashcode was already seen.
  * False negative are possible.
  * False positive are impossible. *)
-val insert : hashcode:Big_int.big_int -> detector -> bool
+val insert : hashcode:Z.t -> detector -> bool
 
 
 

@@ -1,5 +1,6 @@
-===== 0.84 (2017-11-12) =====
+===== 0.84.1 (2017-11-12) =====
   * Can specify number of iterations to enforce the password/signword.
+  * Tests switched to zarith (following exenum changes).
   
 ===== 0.82 (2017-07-09) =====
   * Moving to github

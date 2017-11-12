@@ -1,6 +1,6 @@
 open Bitarray
-open Big_int
-
+open Big_int_Z
+    
 (* n arrays of size 2^k *)
 type detector = 
     { bits: bitarray array ;

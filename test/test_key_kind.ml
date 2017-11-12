@@ -7,7 +7,7 @@ open Helper
 (*** Test key encryption ***)
 
 open Exenum
-open Big_int
+open Big_int_Z
 open Exenum_internals.Convenience
 
 let iterations = 15000
@@ -131,7 +131,7 @@ let test_key_encryption old_collisions count config =
   and last = pred_big_int fullcardinal
   in
   
-  while !index <== last do
+  while !index <= last do
 
       let (keysource, location) = get e_fullkey !index in
       let (how, table_passwd, subt_passwd, subt_nb) = get_how config location in
@@ -234,7 +234,7 @@ let test_key_encryption old_collisions count config =
 	Printf.printf "ok\n%!" ;
       
       incr count ;
-      index := 1 +++ !index ;
+      index := !index +++ 1 ;
 
   done ;
   
@@ -255,7 +255,7 @@ let () =
     Printf.printf "**       Config #%d\n" num ;
     Printf.printf "****************************************\n%!" ;
 
-    let index = num +++ start in
+    let index = start +++ num in
     let config = get e_config index in
 
     print_config config ;
