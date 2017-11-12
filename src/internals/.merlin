@@ -1,6 +1,5 @@
 B ../../_build/default/src/internals
 FLG -open Cryptodbm_internals -w -40
-PKG bytes
 PKG cryptokit
 PKG dbm
 PKG fileutils
