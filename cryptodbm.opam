@@ -13,11 +13,12 @@ dev-repo: "git://github.com/lebotlan/ocaml-cryptodbm.git"
 license: "MIT License"
 
 depends: [
-         "ocamlfind"
          "jbuilder"
          "dbm"
          "fileutils"
          "cryptokit"
          ]
+
+available: [ ocaml-version >= "4.02.3" ]
 
 build: [["jbuilder" "build" "-p" name "-j" jobs]]
