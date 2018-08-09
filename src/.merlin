@@ -1,9 +1,17 @@
-B ../_build/default/src
-B ../_build/default/src/internals
-FLG -w -40
-PKG cryptokit
-PKG dbm
-PKG fileutils
-PKG unix
-PKG zarith
+B /home/lebotlan/.opam/4.04.2/lib/bytes
+B /home/lebotlan/.opam/4.04.2/lib/cryptokit
+B /home/lebotlan/.opam/4.04.2/lib/dbm
+B /home/lebotlan/.opam/4.04.2/lib/fileutils
+B /home/lebotlan/.opam/4.04.2/lib/ocaml
+B /home/lebotlan/.opam/4.04.2/lib/zarith
+B ../_build/default/src/.cryptodbm.objs
+B ../_build/default/src/internals/.cryptodbm_internals.objs
+S /home/lebotlan/.opam/4.04.2/lib/bytes
+S /home/lebotlan/.opam/4.04.2/lib/cryptokit
+S /home/lebotlan/.opam/4.04.2/lib/dbm
+S /home/lebotlan/.opam/4.04.2/lib/fileutils
+S /home/lebotlan/.opam/4.04.2/lib/ocaml
+S /home/lebotlan/.opam/4.04.2/lib/zarith
+S .
 S internals
+FLG -w @a-4-29-40-41-42-44-45-48-58-59-60-40 -strict-sequence -strict-formats -short-paths -keep-locs

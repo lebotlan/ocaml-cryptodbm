@@ -102,8 +102,8 @@ let commands =
     (fun env l -> Scanf.sscanf l "info \"%s@\""
 	(fun var ->
 	  begin match get env var with
-	  | Ftable t -> Printf.printf "%s is a table with full access.\n" var
-	  | Rtable t -> Printf.printf "%s is a table with read-only access.\n" var
+	  | Ftable _ -> Printf.printf "%s is a table with full access.\n" var
+	  | Rtable _ -> Printf.printf "%s is a table with read-only access.\n" var
 	  | RSub t -> Printf.printf "%s is subtable #%d (%s)\n" var (Cryptodbm.get_number t) (Cryptodbm.get_name t)
 	  | FSub t -> Printf.printf "%s is subtable #%d (%s)\n" var (Cryptodbm.get_number t) (Cryptodbm.get_name t)
 	  end ;

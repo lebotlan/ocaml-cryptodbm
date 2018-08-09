@@ -1,25 +1,34 @@
-.PHONY: all tests clean doc build examples
+.PHONY: all tests clean doc build examples install
 
 build:
-	jbuilder build
+	dune build
 
 all:	build examples tests doc
 
 
 examples:
-	jbuilder build @examples/examples
+	dune build @examples/examples
+	ln -fs _build/default/examples/*.exe .
+
+tests:
+	dune build @test/tests
+	ln -fs _build/default/test/*.exe .
 
 clean:
 	find -L . -name "*~" -delete
-	jbuilder clean
+	dune clean
+	rm -f *.exe
 	rm -rf docs/*
 
-tests:
-	jbuilder build @test/tests
+
+#doc:	build
+#doc:	build
+#	ocamlfind ocamldoc -html -d docs _build/default/src/cryptodbm.mli
+#	cp style/style.css docs/
 
 doc:	build
-	ocamlfind ocamldoc -html -d docs _build/default/src/cryptodbm.mli
-	cp style/style.css docs/
+	dune build @doc
+	rm -rf docs/*
+	cp -R _build/default/_doc/_html/* docs/
+	cp style/style.css docs/odoc.css
 
-# I do not use odoc yet, because it is undocumented, and the generated files use the css file in ../../odoc.css
-# which is not correct when deploying the pages. I will not /sed/ the output files to fix this.

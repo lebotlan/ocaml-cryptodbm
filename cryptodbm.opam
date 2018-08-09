@@ -1,7 +1,7 @@
 opam-version: "1.2"
 
 name: "cryptodbm"
-version: "0.84.2"
+version: "0.84.4"
 
 author: "Didier Le Botlan <github.lebotlan@dfgh.net>"
 maintainer: "Didier Le Botlan <github.lebotlan@dfgh.net>"
@@ -13,7 +13,7 @@ dev-repo: "git://github.com/lebotlan/ocaml-cryptodbm.git"
 license: "MIT License"
 
 depends: [
-         "jbuilder"
+         "dune"
          "dbm"
          "fileutils"
          "cryptokit"
@@ -21,4 +21,7 @@ depends: [
 
 available: [ ocaml-version >= "4.02.3" ]
 
-build: [["jbuilder" "build" "-p" name "-j" jobs]]
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+]

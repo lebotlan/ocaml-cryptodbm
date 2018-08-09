@@ -134,7 +134,7 @@ let test_key_encryption old_collisions count config =
   while !index <= last do
 
       let (keysource, location) = get e_fullkey !index in
-      let (how, table_passwd, subt_passwd, subt_nb) = get_how config location in
+      let (how, table_passwd, subt_passwd, _subt_nb) = get_how config location in
       let key_kind = mk_key location how in
 
       let verbose = !count mod 10000 = 0 in
@@ -181,7 +181,7 @@ let test_key_encryption old_collisions count config =
       (* Decrypt using all the available information. *)
       begin match get_key_info table_passwd ~subt_pas:subt_fun encrypted_key with
       | None -> assert false (* We gave all the information. We are able to decrypt, damn! *)
-      | Some (kkind, None) -> assert false (* Ditto. *)
+      | Some (_kkind, None) -> assert false (* Ditto. *)
       | Some (kkind, Some kkey) ->
 	  assert (kkey = keysource) ;
 	  assert (kkind.key_loc = key_kind.key_loc) ;
@@ -206,7 +206,7 @@ let test_key_encryption old_collisions count config =
       (* Decrypt using only the subtable passwd. *)
       begin match get_key_info Cipher.empty_passwd ~subt_pas:subt_fun encrypted_key with
       | None -> assert (table_passwd <> Cipher.empty_passwd && Cipher.plain_passwd subt_passwd != uncrypted_passwd)
-      | Some (kkind, None) -> assert false (* We gave the subtable password. *)
+      | Some (_kkind, None) -> assert false (* We gave the subtable password. *)
       | Some (kkind, Some kkey) ->
 	  assert (table_passwd == Cipher.empty_passwd || key_kind.key_how = Uncrypted) ;
 	  assert (kkey = keysource) ;

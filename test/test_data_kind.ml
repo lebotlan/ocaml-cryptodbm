@@ -34,7 +34,7 @@ let test_data_encryption () =
   for size = 0 to 20000 do
 
     (* Number of tests for each size. *)
-    for tests = 0 to 100000 do
+    for _tests = 0 to 100000 do
       
       let source = Utils.random_string Utils.gen size in
 

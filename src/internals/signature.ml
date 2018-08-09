@@ -34,7 +34,7 @@ let subtable_signature handler ~subtable_salt ~passwd ~subt ~signwd =
 
 (* Adds another binding to the current signature. 
  * Reveives key and data. *)
-let add_binding handler signwd (encrypted_key, encrypted_data) sign =
+let add_binding signwd (encrypted_key, encrypted_data) sign =
   let signed_key = Kinds.sign_encoded_key signwd encrypted_key
   and signed_data = Kinds.sign_encoded_data signwd encrypted_data in     
   Cipher.digest (sign ^ signed_key ^ signed_data)
@@ -54,14 +54,15 @@ let table_signature handler ~table_salt ~signwd =
   let start = Config.add_salt table_salt (Cipher.strong_passwd signwd) in
 
   (* Iterate over all bindings. *)
-  Setp.fold (add_binding handler signwd) !all_keys start
+  Setp.fold (add_binding signwd) !all_keys start
 
 let sign_subtable handler ~subtable_salt ~passwd key_kind ~subt ~signwd =
   assert (subt >= 0) ;
   let signature = subtable_signature handler ~subtable_salt ~passwd ~subt ~signwd in
   Operations.add ~may_overwrite:true handler key_kind ~max_extra_data:0 ~key:Config.signature_key ~data:signature
 
-let read_subtable_signature handler key_kind ~subt = Operations.get handler key_kind ~key:Config.signature_key
+(* The subtable is encoded in key_kind. *)
+let read_subtable_signature handler key_kind ~subt:_ = Operations.get handler key_kind ~key:Config.signature_key
 
 let sign_table handler ~table_salt ~signwd =
   let signature = table_signature handler ~table_salt ~signwd in
@@ -70,9 +71,9 @@ let sign_table handler ~table_salt ~signwd =
 let read_table_signature handler = Operations.get handler table_key_kind ~key:Config.signature_key
 
 let remove_table_signature handler =
-  try Operations.remove handler table_key_kind Config.signature_key
+  try Operations.remove handler table_key_kind ~key:Config.signature_key
   with Error (Unbound (_, _)) -> () (* Was not signed. *)
 
-let remove_subtable_signature handler kind ~subt =
-  try Operations.remove handler kind Config.signature_key
+let remove_subtable_signature handler kind ~subt:_ =
+  try Operations.remove handler kind ~key:Config.signature_key
   with Error (Unbound (_, _)) -> () (* Was not signed. *)

@@ -1,0 +1,4 @@
+(library
+ (name        cryptodbm_internals)
+ (public_name cryptodbm.internals)
+ (libraries dbm fileutils cryptokit))

@@ -21,14 +21,14 @@ let pad phrase padding_len =
   let header = String.make (padding_len + 2) 'x' in
       
   (* 2 bytes for padding_len. *)
-  (insert16 header 0 padding_len) ^ phrase
+  (insert16 header ~pos:0 padding_len) ^ phrase
 
 (* Remove padding. *)
 let unpad phrase =
   let len = String.length phrase in
   assert (len >= 2) ;
   (* k is the padding length. *)
-  let k = read16 phrase 0 in
+  let k = read16 phrase ~pos:0 in
   let len = len - (k+2) in
   assert (len >= 0) ;
   String.sub phrase (k+2) len

@@ -75,8 +75,8 @@ open Strings
  *)
 let put_location = function
   | Table_Builtin -> "\xc0"
-  | Subtable_Builtin subt -> assert (subt >= 0 && subt <= max_subtable) ; insert16 "oo" 0 (0x4000 lor subt)
-  | Subtable_User subt -> assert (subt >= 0 && subt <= max_subtable) ; insert16 "oo" 0 subt
+  | Subtable_Builtin subt -> assert (subt >= 0 && subt <= max_subtable) ; insert16 "oo" ~pos:0 (0x4000 lor subt)
+  | Subtable_User subt -> assert (subt >= 0 && subt <= max_subtable) ; insert16 "oo" ~pos:0 subt
 
 let loc2hash = put_location
 
@@ -212,7 +212,7 @@ let get_key_info passwd ~subt_pas enckey =
 	    | Table_Builtin, 'T' -> (Some (unpad subtable_key), Cipher.empty_passwd)
 	    | Table_Builtin, _ -> assert false (* Table_Builtin cannot be subtable-encrypted. *)
 		  
-	    | (Subtable_Builtin subt | Subtable_User subt), 'T' ->
+	    | (Subtable_Builtin _ | Subtable_User _), 'T' ->
 		(Some (unpad subtable_key), Cipher.empty_passwd)
 		    
 	    | (Subtable_Builtin subt | Subtable_User subt), 'E' ->
@@ -228,7 +228,7 @@ let get_key_info passwd ~subt_pas enckey =
 		    (Some (unpad padded_key), subt_passwd)
 		  end
 
-	    | (Subtable_Builtin subt | Subtable_User subt), _ -> assert false (* Only 'T' or 'E' *)
+	    | (Subtable_Builtin _ | Subtable_User _), _ -> assert false (* Only 'T' or 'E' *)
 	    end
 	  in
 	  

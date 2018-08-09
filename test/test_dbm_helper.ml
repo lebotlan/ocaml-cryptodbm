@@ -296,7 +296,7 @@ open Cryptodbm_internals
 let random_string gen maxlen = Utils.random_string gen (Utils.random_int gen maxlen)
 
 (* Creates a pseudo-random parasite : key/data *)
-let init_parasite gen nb = ("z" ^ random_string gen 20, random_string gen 40)
+let init_parasite gen _nb = ("z" ^ random_string gen 20, random_string gen 40)
 
 (* Computes a straight sequence corresponding to the given subtable configuration. *)
 let compute_sub_sequence gen acu sconf =

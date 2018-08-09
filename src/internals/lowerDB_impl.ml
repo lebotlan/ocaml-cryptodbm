@@ -128,7 +128,7 @@ let file_ops =
       let copy dbfile backup =
 	(* Just copy the first file, the second is a hard link to the first. *)
 	match dbfile.files, (mk_file backup).files with
-	| [pag1 ; dir1], [pag2 ; dir2] ->
+	| [pag1 ; _dir1], [pag2 ; _dir2] ->
 	    Utils.cp pag1 pag2 ;
 	    (* Ignore the second file for the time being. *)
 	    ()

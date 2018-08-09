@@ -66,7 +66,7 @@ let insert stat coef add_fun =
   let key_interval = get_interval stat.keys
   and data_interval = get_interval stat.data in
 
-  for i = 1 to nb do
+  for _ = 1 to nb do
     let key_len = choose key_interval
     and data_len = choose data_interval in
 

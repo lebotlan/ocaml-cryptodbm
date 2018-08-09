@@ -1,5 +1,4 @@
 open Cryptodbm_internals
-open Config
 open Types
 
 type read = Types.read
@@ -247,7 +246,7 @@ let open_aux handler open_dict open_dict2 ~iterations passwd ~signwd ~check_sign
     Operations.close handler ;
     raise e  
 
-let open_dict_empty _ ~name ~subt ~how = Subtable.empty name subt
+let open_dict_empty _ ~name ~subt ~how:_ = Subtable.empty name subt
 
 let open_read ?(iterations=Config.passwd_iterations) ~file ~passwd ~signwd () =
   let handler = Operations.open_read ~file in
