@@ -1,5 +1,5 @@
 {2 Library cryptodbm}
-Main module: {!module-Cryptodbm}.
+Module {!module-Cryptodbm} : encrypted layer over the dbm library: serverless, key-value databases with symmetric encryption. 
 
 
 

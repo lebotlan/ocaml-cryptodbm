@@ -21,14 +21,16 @@ clean:
 	rm -rf docs/*
 
 
-#doc:	build
-#doc:	build
-#	ocamlfind ocamldoc -html -d docs _build/default/src/cryptodbm.mli
-#	cp style/style.css docs/
-
 doc:	build
-	dune build @doc
 	rm -rf docs/*
-	cp -R _build/default/_doc/_html/* docs/
-	cp style/style.css docs/odoc.css
+	ocamlfind ocamldoc -html -d docs _build/default/src/cryptodbm.mli
+	cp style/style.css docs/
+
+## odoc works, but the html structure is better with ocamldoc, hence it is easier to style.
+
+#doc:	build
+#	dune build @doc
+#	rm -rf docs/*
+#	cp -R _build/default/_doc/_html/* docs/
+#	cp style/style.css docs/odoc.css
 
